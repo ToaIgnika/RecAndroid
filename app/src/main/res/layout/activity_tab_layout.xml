@@ -8,25 +8,33 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
+
+
+
     <android.support.design.widget.AppBarLayout
+
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:background="@android:color/background_dark"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabIndicatorColor="@android:color/holo_blue_bright"
+            app:tabBackground="@android:color/background_dark"
             app:tabMode="fixed"
             app:tabGravity="fill"/>
 
+
+
+
+
     </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
@@ -35,14 +43,12 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 
+
+
+
+
     <include layout="@layout/content_tab_layout" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="1px"
-        android:src="@android:drawable/ic_dialog_email" />
+
 
 </android.support.design.widget.CoordinatorLayout>

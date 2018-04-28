@@ -13,8 +13,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         TabLayout tabLayout =
                 (TabLayout) findViewById(R.id.tab_layout);
@@ -49,5 +47,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+
+
+
     }
 }

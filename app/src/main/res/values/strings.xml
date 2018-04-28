@@ -3,4 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="userlist_landing_string">Your activities are below:</string>
+    <string name="suvery_landing_string">Rate us below:</string>
+    <string name="browse_landing_string">Browse the calender below:</string>
 </resources>
