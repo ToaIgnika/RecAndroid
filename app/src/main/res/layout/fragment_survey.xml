@@ -50,6 +50,19 @@
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown"/>
 
+        <EditText
+            android:background="@drawable/customborder"
+            android:paddingTop="10dp"
+            android:layout_below="@id/InstructorDropDown"
+            android:id="@+id/CommentBox"
+            android:layout_width="fill_parent"
+            android:layout_height="300dp" />
+
+        <RatingBar
+            android:layout_below="@id/CommentBox"
+            android:id="@+id/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 
