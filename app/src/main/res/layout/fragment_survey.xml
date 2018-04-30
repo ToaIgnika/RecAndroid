@@ -7,9 +7,50 @@
     android:background="@drawable/trainertime">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+
+        android:background="@drawable/customborder"
+        >
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/suvery_landing_string" />
+        android:id="@+id/CourseTitleBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Course: "
+        android:textSize="32sp"/>
+
+        <Spinner
+            android:layout_toRightOf="@id/CourseTitleBar"
+            android:id="@+id/CourseDropDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"/>
+
+        <TextView
+            android:layout_below="@id/CourseTitleBar"
+            android:id="@+id/InstructorTitleBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instructor: "
+            android:textSize="32sp"/>
+
+
+        <Spinner
+            android:layout_below="@id/CourseDropDown"
+            android:layout_toRightOf="@id/InstructorTitleBar"
+            android:id="@+id/InstructorDropDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"/>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
