@@ -4,6 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.toa.rec.Fragments.BrowseFragment;
+import com.example.toa.rec.Fragments.SurveyFragment;
+import com.example.toa.rec.Fragments.UserListFragment;
+
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
     int tabCount;

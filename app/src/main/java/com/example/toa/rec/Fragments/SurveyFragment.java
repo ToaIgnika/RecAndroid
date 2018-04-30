@@ -1,4 +1,4 @@
-package com.example.toa.rec;
+package com.example.toa.rec.Fragments;
 
 
 import android.os.Bundle;
@@ -7,14 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.toa.rec.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserListFragment extends Fragment {
+public class SurveyFragment extends Fragment {
 
 
-    public UserListFragment() {
+    public SurveyFragment() {
         // Required empty public constructor
     }
 
@@ -23,7 +25,7 @@ public class UserListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_list, container, false);
+        return inflater.inflate(R.layout.fragment_survey, container, false);
     }
 
 }
