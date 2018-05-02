@@ -1,34 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.BrowseFragment"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <com.alamkanak.weekview.WeekView
-        android:id="@+id/weekView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:eventTextColor="@android:color/white"
-        app:textSize="12sp"
-        app:hourHeight="60dp"
-        app:headerColumnPadding="8dp"
-        app:headerColumnTextColor="#8f000000"
-        app:headerRowPadding="12dp"
-        app:columnGap="8dp"
-        app:noOfVisibleDays="7"
-        app:headerRowBackgroundColor="#efefef"
-        app:dayBackgroundColor="#05000000"
-        app:todayBackgroundColor="#1848adff"
-        app:headerColumnBackground="#ffffffff"
-        app:firstDayOfWeek="monday"
-        app:pastBackgroundColor="#ffffff"
-        app:nowLineColor="#122112"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        tools:context=".Fragments.BrowseFragment"
 
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
+        <LinearLayout
+            android:id="@+id/calendar_week_1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="6" />
 
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/calendar_week_2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="6" />
+
+        <LinearLayout
+            android:id="@+id/calendar_week_3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="6" />
+
+        <LinearLayout
+            android:id="@+id/calendar_week_4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="6" />
+
+        <LinearLayout
+            android:id="@+id/calendar_week_5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="6"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/calendar_footer_info" />
+</android.support.constraint.ConstraintLayout>
