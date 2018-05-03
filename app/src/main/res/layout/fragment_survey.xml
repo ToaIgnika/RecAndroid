@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="500dp"
-        android:layout_height="500dp"
+        android:layout_height="520dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
 
@@ -63,6 +63,16 @@
             android:id="@+id/RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/SubmitButton"
+            android:layout_below="@id/CommentBox"
+            android:layout_toRightOf="@id/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"/>
+
+
 
     </RelativeLayout>
 
