@@ -3,36 +3,49 @@ package com.example.toa.rec;
 import org.json.JSONObject;
 
 public class Event {
-    private String name;
-    private String description;
+
+    private int timeSlot;;
+    private String eventName;
+    private String eventDescription;
 
     public Event() {}
 
-    public Event (String name, String description) {
-        this.name = name;
-        this.description = description;
+    public Event (int timeSlot, String name, String description) {
+        this.timeSlot = timeSlot;
+        this.eventName = name;
+        this.eventDescription = description;
+    }
+
+
+    public int getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(int timeSlot) {
+        this.timeSlot = timeSlot;
     }
 
     public String getName() {
-        return name;
+        return eventName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.eventName = name;
     }
 
     public String getDescription() {
-        return description;
+        return eventDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.eventDescription = description;
     }
 
     public Event fromJson(JSONObject j) {
         try {
-            this.name = j.getString("name");
-            this.description = j.getString("description");
+            this.timeSlot = j.getInt("timeSlot");
+            this.eventName = j.getString("eventName");
+            this.eventDescription = j.getString("eventDescription");
         } catch (Exception e) {
 
         }
