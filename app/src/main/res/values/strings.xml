@@ -7,4 +7,8 @@
     <string name="suvery_landing_string">Rate us below:</string>
     <string name="browse_landing_string">Browse the calender below:</string>
     <string name="calendar_footer_info">Summer Schedule starts May7th - Group Fitness runs 12 weeks &amp; Specialty Classes run for 10 weeks.\n\nMix &amp; Match classes with our FLEXPASS (1 year expiry). $60 for 10 classes. Pilates $90 for 10 classes</string>
+    <string name="btn_reg">Register</string>
+    <string name="btn_back">Back</string>
+    <string name="tv_inst_info">Ryan\n\n23\n\nSingle\n\nRyan is a man of few words- but when it comes to Training for something he is the best there is</string>
+    <string name="tv_event_info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at dignissim urna. Phasellus rutrum nulla sed mauris venenatis tincidunt sed vel felis. Aliquam ultricies nisi justo, quis varius ipsum vulputate quis. Aliquam purus neque, molestie at fermentum id, luctus quis mi. Vivamus iaculis pellentesque mi in dapibus. Nulla elementum scelerisque quam, nec varius felis. Curabitur sollicitudin in nisl id accumsan. Suspendisse potenti.\n\nNumber of people: 21 (16 remaining) </string>
 </resources>

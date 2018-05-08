@@ -3,28 +3,23 @@ package com.example.toa.rec.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.toa.rec.Api;
+import com.example.toa.rec.Dialogs.EventDetailsDialog;
 import com.example.toa.rec.Event;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,10 +124,9 @@ public class BrowseFragment extends Fragment {
         */
 
         /*ALEX: This will read the events from the database and also call the method "load events" and "display events" to update
-        * the layout*/
+         * the layout*/
+        //displayEvents(v);
         readEvents();
-
-
         return v;
     }
 
@@ -162,19 +156,20 @@ public class BrowseFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-           // progressBar.setVisibility(View.VISIBLE);
+            // progressBar.setVisibility(View.VISIBLE);
         }
 
         /*ALEX: Once the task has finished executing we can do stuff here, i.e. load the display*/
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-          //  progressBar.setVisibility(View.GONE);
+            //  progressBar.setVisibility(View.GONE);
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
                     Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     /*ALEX: Loads the events from the json response from the database*/
+                    //Toast.makeText(getContext(), "Loaded", Toast.LENGTH_SHORT).show();
                     loadEvents(object.getJSONArray("events"));
                 }
             } catch (JSONException e) {
@@ -202,27 +197,20 @@ public class BrowseFragment extends Fragment {
         eventList.clear();
 
         for (int i = 0; i < events.length(); i++) {
-
-
             JSONObject obj = events.getJSONObject(i);
-
             eventList.add(new Event(
                     obj.getInt("timeSlot"),
                     obj.getString("eventName"),
                     obj.getString("eventDescription")
             ));
-
         }
 
         /*ALEX: Calls display events now that we have loaded them to change the schedule layout accordingly*/
-        displayEvents();
+        displayEvents(getView());
     }
 
-
     /*ALEX: Puts the events into the layout and configures it*/
-    private void displayEvents() {
-        View v = getView();
-
+    private void displayEvents(View v) {
         // Get a reference for the week view in the layout.
         LinearLayout monday = (LinearLayout) v.findViewById(R.id.calendar_week_1);
         LinearLayout tuesday = (LinearLayout) v.findViewById(R.id.calendar_week_2);
@@ -274,12 +262,11 @@ public class BrowseFragment extends Fragment {
                     view.setOnClickListener(onCellClickListener);
                 }
 
-
                 /*ALEX: Adds events from database to each corresponding cell*/
                 for(int i = 0; i < eventList.size(); i++) {
                     if(eventList.get(i).getTimeSlot() == timeslot) {
-                       TextView eventInfo =  view.findViewById(R.id.tv_event_info);
-                       eventInfo.setText(eventList.get(i).getName() + "\n" + eventList.get(i).getDescription());
+                        TextView eventInfo =  view.findViewById(R.id.tv_event_info);
+                        eventInfo.setText(eventList.get(i).getName() + "\n" + eventList.get(i).getDescription());
                     }
                 }
 
@@ -317,7 +304,7 @@ public class BrowseFragment extends Fragment {
      */
     private void startDialog(String info) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this.getContext());
-        alert.setTitle("Weather Forcast:");
+        alert.setTitle("Event name:");
         alert.setMessage(info);
         //TextView myMsg = new TextView(this.getContext());
         //alert.setMessage(  parseForecast(((Vars) getApplication()).forecast));
@@ -347,10 +334,11 @@ public class BrowseFragment extends Fragment {
         public void onClick(View v) {
             // TODO Auto-generated method stub
             //if(v == tv[0]){
-                //do whatever you want....
+            //do whatever you want....
             //}
-            startDialog("ID:" + v.getId());
+            //startDialog("ID:" + v.getId());
+            EventDetailsDialog d = new EventDetailsDialog(getActivity(), v.getId());
+            d.show();
         }
     };
-
 }

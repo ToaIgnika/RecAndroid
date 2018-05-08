@@ -7,4 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="btn_green" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">#4CAF50</item>
+        <item name="colorButtonNormal">#4CAF50</item>
+    </style>
+
+    <style name="btn_red" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">#D32F2F</item>
+        <item name="colorButtonNormal">#D32F2F</item>
+    </style>
 </resources>

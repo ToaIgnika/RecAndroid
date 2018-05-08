@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 public class Event {
 
-    private int timeSlot;;
+    private int timeSlot;
     private String eventName;
     private String eventDescription;
 
