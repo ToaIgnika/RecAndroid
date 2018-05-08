@@ -28,8 +28,8 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.event_details_dialog);
-        TextView tv = (TextView) findViewById(R.id.tv_instructor);
-        tv.setText("" + id);
+        //TextView tv = (TextView) findViewById(R.id.tv_instructor);
+        //tv.setText("" + id);
         yes = (Button) findViewById(R.id.btn_register);
         no = (Button) findViewById(R.id.btn_back);
         yes.setOnClickListener(this);

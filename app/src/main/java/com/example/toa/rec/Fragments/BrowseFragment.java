@@ -1,10 +1,10 @@
 package com.example.toa.rec.Fragments;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +12,21 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.toa.rec.Api;
 import com.example.toa.rec.Dialogs.EventDetailsDialog;
 import com.example.toa.rec.Event;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,71 +63,7 @@ public class BrowseFragment extends Fragment {
         eventList = new ArrayList<>();
 
         // Inflate the layout for this fragment
-
         View v = inflater.inflate(R.layout.fragment_browse, container, false);
-        /*
-        // Get a reference for the week view in the layout.
-        LinearLayout monday = (LinearLayout) v.findViewById(R.id.calendar_week_1);
-        LinearLayout tuesday = (LinearLayout) v.findViewById(R.id.calendar_week_2);
-        LinearLayout wednesday = (LinearLayout) v.findViewById(R.id.calendar_week_3);
-        LinearLayout thursday = (LinearLayout) v.findViewById(R.id.calendar_week_4);
-        LinearLayout friday = (LinearLayout) v.findViewById(R.id.calendar_week_5);
-        LinearLayout[] weekdays = new LinearLayout[5];
-        weekdays[0] = monday;
-        weekdays[1] = tuesday;
-        weekdays[2] = wednesday;
-        weekdays[3] = thursday;
-        weekdays[4] = friday;
-
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        buttonParams.weight = 1;
-
-        for (int weekday = 0; weekday < 5; ++weekday) {
-            for (int timeslot = 0; timeslot < 6; ++timeslot) {
-
-                // create view for event cell
-                View view = getLayoutInflater().inflate(R.layout.event_calendar_cell, null);
-
-                // set width and height based on screen estate
-                int width = v.getWidth();
-                int height = v.getHeight();
-                view.setMinimumWidth(width/5);
-                view.setMinimumHeight(height/7);
-                view.setId(weekday*timeslot);
-
-                /**
-                 * Handle weekday line creation
-                 */
-
-        /*
-                if (timeslot == 0 && weekday == 0) {
-                    setTextContent(view, "Monday");
-                } else if (timeslot == 0 && weekday == 1) {
-                    setTextContent(view, "Tuesday");
-                } else if (timeslot == 0 && weekday == 2) {
-                    setTextContent(view, "Wednesday");
-                } else if (timeslot == 0 && weekday == 3) {
-                    setTextContent(view, "Thursday");
-                } else if (timeslot == 0 && weekday == 4) {
-                    setTextContent(view, "Friday");
-                } else {
-                    // attach onclick listener to actual events
-                    // TODO: need to handle logic for empty event cells
-                    view.setOnClickListener(onCellClickListener);
-                }
-
-
-
-                // add event cell view to appropriate weekday
-                weekdays[weekday].addView(view);
-            }
-
-
-        }
-
-        */
 
         /*ALEX: This will read the events from the database and also call the method "load events" and "display events" to update
          * the layout*/
@@ -230,8 +172,7 @@ public class BrowseFragment extends Fragment {
         buttonParams.weight = 1;
 
         for (int weekday = 0; weekday < 5; ++weekday) {
-            for (int timeslot = 0; timeslot < 6; ++timeslot) {
-
+            for (int timeslot = 0; timeslot < 5; ++timeslot) {
 
                 // create view for event cell
                 View view = getLayoutInflater().inflate(R.layout.event_calendar_cell, null);
@@ -243,19 +184,42 @@ public class BrowseFragment extends Fragment {
                 view.setMinimumHeight(height / 7);
                 view.setId(weekday * timeslot);
 
+                // create instance of the calendar
+                Calendar calendar = Calendar.getInstance();
+
+                // get todays weekday
+                int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+                // change +/- 1 to edit the dates
+                calendar.add(Calendar.DAY_OF_YEAR, weekday - day + 2);
+
+                // get the date
+                Date c = calendar.getTime();
+                SimpleDateFormat df = new SimpleDateFormat("MMM dd");
+                String formattedDate = df.format(c);
+                //System.out.println("TODAY:"+ formattedDate);
+
+                // int day = calendar.get(Calendar.DAY_OF_WEEK);
+                // System.out.println("WEEKDAY:"+ day);
+
                 /**
                  * Handle weekday line creation
                  */
                 if (timeslot == 0 && weekday == 0) {
-                    setTextContent(view, "Monday");
+                    setTextContent(view, "Monday, " + formattedDate);
+                    setTextColor(view, Color.BLUE);
                 } else if (timeslot == 0 && weekday == 1) {
-                    setTextContent(view, "Tuesday");
+                    setTextContent(view, "Tuesday, " + formattedDate);
+                    setTextColor(view, Color.BLUE);
                 } else if (timeslot == 0 && weekday == 2) {
-                    setTextContent(view, "Wednesday");
+                    setTextContent(view, "Wednesday, " + formattedDate);
+                    setTextColor(view, Color.BLUE);
                 } else if (timeslot == 0 && weekday == 3) {
-                    setTextContent(view, "Thursday");
+                    setTextContent(view, "Thursday, " + formattedDate);
+                    setTextColor(view, Color.BLUE);
                 } else if (timeslot == 0 && weekday == 4) {
-                    setTextContent(view, "Friday");
+                    setTextContent(view, "Friday, " + formattedDate);
+                    setTextColor(view, Color.BLUE);
                 } else {
                     // attach onclick listener to actual events
                     // TODO: need to handle logic for empty event cells
@@ -275,7 +239,6 @@ public class BrowseFragment extends Fragment {
             }
         }
     }
-
 
     /**
      * Changes color of the displayed event
@@ -297,33 +260,8 @@ public class BrowseFragment extends Fragment {
         tv.setText(c);
     }
 
-    /**
-     * method to create an event preview window (dialog).
-     * TODO: change parameter to Event type, properly style dialog window, handle login/etc
-     * @param info
-     */
-    private void startDialog(String info) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this.getContext());
-        alert.setTitle("Event name:");
-        alert.setMessage(info);
-        //TextView myMsg = new TextView(this.getContext());
-        //alert.setMessage(  parseForecast(((Vars) getApplication()).forecast));
-        /*
-        myMsg.setText(  parseForecast(((Vars) getApplication()).forecast));
-        myMsg.setGravity(Gravity.CENTER_HORIZONTAL);
-        myMsg.setTextSize(20);
-        myMsg.setLineSpacing(3,1);
-        alert.setView(myMsg);
-        */
-        alert.setPositiveButton("Register", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-
-        alert.setCancelable(true);
-        alert.show();
-    }
-
+    // variable to track event time
+    private long mLastClickTime = 0;
 
     /**
      * Onclick listener for cells.
@@ -337,6 +275,11 @@ public class BrowseFragment extends Fragment {
             //do whatever you want....
             //}
             //startDialog("ID:" + v.getId());
+            // Preventing multiple clicks, using threshold of 1 second
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             EventDetailsDialog d = new EventDetailsDialog(getActivity(), v.getId());
             d.show();
         }

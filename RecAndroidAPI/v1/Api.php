@@ -105,6 +105,13 @@ if(isset($_GET['apicall'])){
             $response['message'] = 'Request successfully completed';
             $response['events'] = $db->getEvents();
             break;
+
+        case 'getallevents':
+            $db = new DbOperation();
+            $response['error'] = false;
+            $response['message'] = 'Request successfully completed';
+            $response['events'] = $db->getAllEvents();
+            break;
     }
 
 }else{

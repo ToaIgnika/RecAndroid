@@ -17,7 +17,7 @@
         android:theme="@style/btn_red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_register"
-        app:layout_constraintTop_toBottomOf="@+id/tv_class_info" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_class_capacity" />
 
     <Button
         android:id="@+id/btn_register"
@@ -30,7 +30,7 @@
         android:theme="@style/btn_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_class_info" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_class_capacity" />
 
     <ImageView
         android:id="@+id/iv_instructor"
@@ -58,24 +58,76 @@
         app:srcCompat="@drawable/ph_doge" />
 
     <TextView
-        android:id="@+id/tv_class_info"
-        android:layout_width="450dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/tv_event_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_class_cover" />
-
-    <TextView
-        android:id="@+id/tv_instructor"
+        android:id="@+id/tv_instructor_name"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/tv_inst_info"
-        app:layout_constraintEnd_toStartOf="@+id/tv_class_info"
+        android:text="@string/tv_inst_name"
+        app:layout_constraintEnd_toStartOf="@+id/tv_class_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_instructor" />
+
+    <TextView
+        android:id="@+id/tv_instructor_info"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tv_inst_info"
+        app:layout_constraintEnd_toStartOf="@+id/tv_class_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_instructor_name" />
+
+    <TextView
+        android:id="@+id/tv_class_name"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/tv_class_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_class_cover" />
+
+    <TextView
+        android:id="@+id/tv_class_date"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tv_class_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_class_name" />
+
+    <TextView
+        android:id="@+id/tv_class_location"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tv_class_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_class_date" />
+
+    <TextView
+        android:id="@+id/tv_class_details"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tv_class_details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_class_location" />
+
+    <TextView
+        android:id="@+id/tv_class_capacity"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tv_class_capacity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_class_details" />
 </android.support.constraint.ConstraintLayout>

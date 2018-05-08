@@ -77,12 +77,21 @@ class DbOperation
             $event['timeSlot'] = $timeSlot;
             $event['eventName'] = $eventName;
             $event['eventDescription'] = $eventDescription;
-
-
             array_push($events, $event);
         }
-
         return $events;
     }
 
+    function getAllEvents() {
+        $stmt = $this->con->prepare("SELECT * FROM events");
+        $stmt->bind_param('timeSlot',$id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $events = array();
+
+        while($r =$res->fetch_assoc()){
+            $events[] = $r; //  = array();
+        }
+        return $events;
+    }
 }
