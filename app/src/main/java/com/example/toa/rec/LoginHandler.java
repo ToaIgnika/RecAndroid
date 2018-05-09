@@ -1,15 +1,18 @@
 package com.example.toa.rec;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.toa.rec.Fragments.BrowseFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
@@ -21,12 +24,17 @@ public class LoginHandler {
     String email;
     String ePin;
 
-    public void saveLoginInfo(Context c, String email, String password) {
+    public void saveLoginInfo(Context c, String email, String password, int balance, Activity a) {
         SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("email", email);
         editor.putString("password", password);
+        editor.putInt("balance", balance);
         editor.apply();
+        TextView userDisplay = a.findViewById(R.id.userDisplay);
+        userDisplay.setText("Welcome: " + email);
+        TextView balanceDisplay = a.findViewById(R.id.balanceDisplay);
+        balanceDisplay.setText("Balance: " + balance);
     }
 
     public void isValidLoginRequest(String username,  String password, Context c) {

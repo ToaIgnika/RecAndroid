@@ -117,7 +117,7 @@ public class SurveyFragment extends Fragment {
                 d.show();
 
                 LoginHandler loginHandler = new LoginHandler();
-                loginHandler.saveLoginInfo(view.getContext(),"test", "test" );
+                //loginHandler.saveLoginInfo(view.getContext(),"test", "test", getActivity());
                 System.out.println("The stored username is: " + loginHandler.getEmail(view.getContext()));
 
             }

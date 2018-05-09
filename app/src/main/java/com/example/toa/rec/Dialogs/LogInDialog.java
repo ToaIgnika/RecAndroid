@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.toa.rec.Api;
 import com.example.toa.rec.LoginHandler;
+import com.example.toa.rec.MainActivity;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
 
@@ -38,7 +39,7 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
 
     EditText emailField;
     EditText passwordField;
-    public Activity c;
+    public Activity activity;
     public Dialog d;
     public Button loginButton;
     public int id;
@@ -46,7 +47,7 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
     public LogInDialog(Activity a, int i) {
         super(a);
         // TODO Auto-generated constructor stub
-        this.c = a;
+        this.activity = a;
         id = i;
     }
 
@@ -169,9 +170,10 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                } else {
                    Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
                    LoginHandler lh = new LoginHandler();
-                   String email = object.getJSONObject("user").get("email").toString();
-                   String ePin = object.getJSONObject("user").get("ePin").toString();
-                   lh.saveLoginInfo(getContext(), email, ePin);
+                   String email = object.getJSONObject("user").getString("email");
+                   String ePin = object.getJSONObject("user").getString("ePin");
+                   int balance = object.getJSONObject("user").getInt("balance");
+                   lh.saveLoginInfo(getContext(), email, ePin, balance, activity);
                    System.out.println("The user email" + email);
                    System.out.println("The user ePin" + ePin);
                    dismiss();

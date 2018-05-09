@@ -18,19 +18,39 @@
         android:background="@android:color/background_dark"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             app:tabIndicatorColor="@android:color/holo_blue_bright"
             app:tabBackground="@android:color/background_dark"
             app:tabMode="fixed"
             app:tabGravity="fill"/>
 
 
+        <TextView
+            android:id="@+id/userDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Welcome: guest"
+            />
 
+            <TextView
+                android:id="@+id/balanceDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/userDisplay"
+                android:text=""
+                />
+
+        </RelativeLayout>
 
 
     </android.support.design.widget.AppBarLayout>
