@@ -19,6 +19,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
+import com.example.toa.rec.Dialogs.EventDetailsDialog;
+import com.example.toa.rec.Dialogs.LogInDialog;
+import com.example.toa.rec.LoginHandler;
 import com.example.toa.rec.MainActivity;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
@@ -62,7 +65,7 @@ public class SurveyFragment extends Fragment {
 
 
 
-        View view = inflater.inflate(R.layout.fragment_survey, container, false);
+        final View view = inflater.inflate(R.layout.fragment_survey, container, false);
 
         ratingBar = view.findViewById(R.id.RatingBar);
         commentBox = view.findViewById(R.id.CommentBox);
@@ -106,6 +109,21 @@ public class SurveyFragment extends Fragment {
 
         });
 
+        Button loginButton = view.findViewById(R.id.LoginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogInDialog d = new LogInDialog(getActivity(), v.getId());
+                d.show();
+
+                LoginHandler loginHandler = new LoginHandler();
+                loginHandler.saveLoginInfo(view.getContext(),"test", "test" );
+                System.out.println("The stored username is: " + loginHandler.getEmail(view.getContext()));
+
+            }
+        });
+
+
 
         return view;
 
@@ -119,11 +137,9 @@ public class SurveyFragment extends Fragment {
         System.out.println("creating review");
         String courseName = courseSpinner.getSelectedItem().toString().trim();
         String instructorName = instructorSpinner.getSelectedItem().toString().trim();
-
         double rating = ratingBar.getRating();
 
         String reviewText  = commentBox.getText().toString();
-
 
         HashMap<String, String> params = new HashMap<>();
         params.put("courseName", courseName);
@@ -185,4 +201,6 @@ public class SurveyFragment extends Fragment {
             return null;
         }
     }
+
+
 }
