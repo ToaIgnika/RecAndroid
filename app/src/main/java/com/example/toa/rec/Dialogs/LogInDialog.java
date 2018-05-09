@@ -180,7 +180,6 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                }
 
 
-                System.out.println("object details" + object);
 
             } catch (JSONException e) {
                 e.printStackTrace();
