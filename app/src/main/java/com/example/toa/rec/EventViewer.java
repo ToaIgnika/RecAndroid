@@ -35,18 +35,10 @@ public class EventViewer extends AppCompatActivity {
     }
 
     private void prepareEventData() {
+        /*
         Event movie = new Event(100,"Mad Max: Fury Road", "Action & Adventure");
         eventList.add(movie);
-
-        movie = new Event(100,"Inside Out", "Animation, Kids & Family");
-        eventList.add(movie);
-
-        movie = new Event(100,"Star Wars: Episode VII - The Force Awakens", "Action");
-        eventList.add(movie);
-
-        movie = new Event(100,"Shaun the Sheep", "Animation");
-        eventList.add(movie);
-
+        */
         mAdapter.notifyDataSetChanged();
     }
 

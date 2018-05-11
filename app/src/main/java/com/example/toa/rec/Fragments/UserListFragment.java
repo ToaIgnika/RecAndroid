@@ -53,6 +53,8 @@ public class UserListFragment extends Fragment {
     }
 
     private void prepareEventData() {
+
+        /*
         Event movie = new Event(100,"Mad Max: Fury Road", "Action & Adventure");
         eventList.add(movie);
 
@@ -63,7 +65,8 @@ public class UserListFragment extends Fragment {
         eventList.add(movie);
 
         movie = new Event(100,"Shaun the Sheep", "Animation");
-        eventList.add(movie);
+        eventList.add(movie);*/
+
 
         mAdapter.notifyDataSetChanged();
     }

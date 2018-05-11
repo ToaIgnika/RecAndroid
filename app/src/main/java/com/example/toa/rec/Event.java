@@ -4,50 +4,76 @@ import org.json.JSONObject;
 
 public class Event {
 
-    private int timeSlot;
+    private int eventID;
+    private String eventDate;
     private String eventName;
     private String eventDescription;
+    private int slots;
 
     public Event() {}
 
-    public Event (int timeSlot, String name, String description) {
-        this.timeSlot = timeSlot;
-        this.eventName = name;
-        this.eventDescription = description;
+    public void setEventID(int eventID) {
+        this.eventID = eventID;
     }
 
-
-    public int getTimeSlot() {
-        return timeSlot;
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
     }
 
-    public void setTimeSlot(int timeSlot) {
-        this.timeSlot = timeSlot;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
-    public String getName() {
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
+    }
+
+    public void setSlots(int slots) {
+        this.slots = slots;
+    }
+
+    public int getEventID() {
+
+        return eventID;
+    }
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public String getEventName() {
         return eventName;
     }
 
-    public void setName(String name) {
-        this.eventName = name;
-    }
-
-    public String getDescription() {
+    public String getEventDescription() {
         return eventDescription;
     }
 
-    public void setDescription(String description) {
-        this.eventDescription = description;
+    public int getSlots() {
+        return slots;
+    }
+
+    public Event(int eventID, String eventDate, String eventName, String eventDescription, int slots) {
+
+        this.eventID = eventID;
+        this.eventDate = eventDate;
+        this.eventName = eventName;
+        this.eventDescription = eventDescription;
+        this.slots = slots;
     }
 
     public Event fromJson(JSONObject j) {
         try {
-            this.timeSlot = j.getInt("timeSlot");
+
+
+            this.eventID = j.getInt("eventID");
+            this.eventDate = j.getString("eventDate");
             this.eventName = j.getString("eventName");
             this.eventDescription = j.getString("eventDescription");
-        } catch (Exception e) {
+            this.slots = j.getInt("slots");
 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }

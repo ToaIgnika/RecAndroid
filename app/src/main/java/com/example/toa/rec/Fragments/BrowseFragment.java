@@ -140,11 +140,9 @@ public class BrowseFragment extends Fragment {
 
         for (int i = 0; i < events.length(); i++) {
             JSONObject obj = events.getJSONObject(i);
-            eventList.add(new Event(
-                    obj.getInt("timeSlot"),
-                    obj.getString("eventName"),
-                    obj.getString("eventDescription")
-            ));
+            Event newEvent = new Event();
+            newEvent.fromJson(obj);
+            eventList.add(newEvent);
         }
 
         /*ALEX: Calls display events now that we have loaded them to change the schedule layout accordingly*/
@@ -227,12 +225,17 @@ public class BrowseFragment extends Fragment {
                 }
 
                 /*ALEX: Adds events from database to each corresponding cell*/
+
                 for(int i = 0; i < eventList.size(); i++) {
+                    /*
                     if(eventList.get(i).getTimeSlot() == timeslot) {
                         TextView eventInfo =  view.findViewById(R.id.tv_event_info);
                         eventInfo.setText(eventList.get(i).getName() + "\n" + eventList.get(i).getDescription());
                     }
+                    */
                 }
+
+
 
                 // add event cell view to appropriate weekday
                 weekdays[weekday].addView(view);

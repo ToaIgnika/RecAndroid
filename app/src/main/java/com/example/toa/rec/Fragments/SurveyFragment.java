@@ -109,19 +109,6 @@ public class SurveyFragment extends Fragment {
 
         });
 
-        Button loginButton = view.findViewById(R.id.LoginButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogInDialog d = new LogInDialog(getActivity(), v.getId());
-                d.show();
-
-                LoginHandler loginHandler = new LoginHandler();
-                //loginHandler.saveLoginInfo(view.getContext(),"test", "test", getActivity());
-                System.out.println("The stored username is: " + loginHandler.getEmail(view.getContext()));
-
-            }
-        });
 
 
 
