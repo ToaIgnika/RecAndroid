@@ -66,32 +66,81 @@ class DbOperation
     * When this method is called it is returning all the existing record of the database
     */
     function getEvents(){
-        $stmt = $this->con->prepare("SELECT timeSlot, eventName, eventDescription FROM events");
+        $stmt = $this->con->prepare("SELECT eventID, eventDate, eventTime, eventName, eventDescription, slots FROM events");
         $stmt->execute();
-        $stmt->bind_result($timeSlot, $eventName, $eventDescription);
+        $stmt->bind_result($eventID, $eventDate, $eventTime, $eventName, $eventDescription, $slots);
 
         $events = array();
 
         while($stmt->fetch()){
             $event  = array();
-            $event['timeSlot'] = $timeSlot;
+            $event['eventID'] = $eventID;
+            $event['eventDate'] = $eventDate;
+            $event['eventTime'] = $eventName;
             $event['eventName'] = $eventName;
             $event['eventDescription'] = $eventDescription;
+
+            array_push($events, $event);
+        }
+
+        return $events;
+    }
+
+    /*
+     * Find user
+     */
+
+    function getUser($findEmail, $findePin) {
+
+        /*
+         * $type     = 'testing';
+            $type     = mysql_real_escape_string($type);
+         */
+
+        //$email = mysqli_real_escape_string($email);
+       // $ePin = mysqli_real_escape_string($ePin);
+
+
+        $stmt = $this->con->prepare("SELECT email, ePin, balance FROM externalusers WHERE email ='$findEmail'");
+        $stmt->execute();
+        $stmt->bind_result($email, $ePin, $balance);
+
+        //$users = array();
+
+        $user = array();
+
+        while($stmt->fetch()) {}
+            $user['email'] = $email;
+            $user['ePin'] = $ePin;
+            $user['balance'] = $balance;
+
+            //array_push($users, $user);
+
+
+        return $user;
+
+    }
+
+    function getUserEvents($findEmail){
+        $stmt = $this->con->prepare("SELECT eventID, eventDate, eventTime, eventName, eventDescription FROM registeredClasses WHERE email ='$findEmail'");
+        $stmt->execute();
+        $stmt->bind_result($eventID, $eventDate, $eventTime, $eventName, $eventDescription);
+
+
+        $events = array();
+
+        while($stmt->fetch()) {
+            $event = array();
+            $event['eventID'] = $eventID;
+            $event['eventDate'] = $eventDate;
+            $event['eventTime'] = $eventName;
+            $event['eventName'] = $eventName;
+            $event['eventDescription'] = $eventDescription;
+
             array_push($events, $event);
         }
         return $events;
+
     }
 
-    function getAllEvents() {
-        $stmt = $this->con->prepare("SELECT * FROM events");
-        $stmt->bind_param('timeSlot',$id);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        $events = array();
-
-        while($r =$res->fetch_assoc()){
-            $events[] = $r; //  = array();
-        }
-        return $events;
-    }
 }

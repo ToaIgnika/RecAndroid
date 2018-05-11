@@ -106,11 +106,19 @@ if(isset($_GET['apicall'])){
             $response['events'] = $db->getEvents();
             break;
 
-        case 'getallevents':
+
+        case 'getuser':
             $db = new DbOperation();
             $response['error'] = false;
-            $response['message'] = 'Request successfully completed';
-            $response['events'] = $db->getAllEvents();
+            $response['message'] = 'Request sucessfully completed';
+            $response['user'] = $db->getUser($_POST['email'], $_POST['ePin']);
+            break;
+
+        case "getuserevents":
+            $db = new DbOperation();
+            $response['error'] = false;
+            $response['message'] = 'Request sucessfully completed';
+            $response['events'] = $db->getUserEvents($_POST['email']);
             break;
     }
 

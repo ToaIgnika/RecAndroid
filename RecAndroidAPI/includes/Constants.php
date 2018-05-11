@@ -9,4 +9,4 @@
 define('DB_HOST', 'drnserver.duckdns.org');
 define('DB_USER', 'alex');
 define('DB_PASS', 'g3Vz9y@jzx*?BYD/');
-define('DB_NAME', 'test');
+define('DB_NAME', 'recdatabase');
