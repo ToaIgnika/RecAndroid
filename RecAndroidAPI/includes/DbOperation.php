@@ -66,19 +66,28 @@ class DbOperation
     * When this method is called it is returning all the existing record of the database
     */
     function getEvents(){
-        $stmt = $this->con->prepare("SELECT eventID, eventDate, eventTime, eventName, eventDescription, slots FROM events");
+        $stmt = $this->con->prepare("SELECT classID, className, classLocation, instructorID, reservedSlots, availableSlots, beginDate, endDate, beginHour, beginMin, endHour, endMin, dayOfWeek, classDescription, classImageURL FROM classes");
         $stmt->execute();
-        $stmt->bind_result($eventID, $eventDate, $eventTime, $eventName, $eventDescription, $slots);
+        $stmt->bind_result($classID, $className, $classLocation, $instructorID, $reservedSlots, $availableSlots, $beginDate, $endDate, $beginHour, $beginMin, $endHour, $endMin, $dayOfWeek, $classDescription, $classImageURL);
 
         $events = array();
 
         while($stmt->fetch()){
             $event  = array();
-            $event['eventID'] = $eventID;
-            $event['eventDate'] = $eventDate;
-            $event['eventTime'] = $eventName;
-            $event['eventName'] = $eventName;
-            $event['eventDescription'] = $eventDescription;
+            $event['classID'] = $classID;
+            $event['className'] = $className;
+            $event['instructorID'] = $instructorID;
+            $event['reservedSlots'] = $reservedSlots;
+            $event['availableSlots'] = $availableSlots;
+            $event['beginDate'] = $beginDate;
+            $event['endDate'] = $endDate;
+            $event['beginHour'] = $beginHour;
+            $event['beginMin'] = $beginMin;
+            $event['endHour'] = $endHour;
+            $event['endMin'] = $endMin;
+            $event['dayOfWeek'] = $dayOfWeek;
+            $event['classDescription'] = $classDescription;
+            $event['classImageURL'] = $classImageURL;
 
             array_push($events, $event);
         }
@@ -109,33 +118,45 @@ class DbOperation
 
         $user = array();
 
-        while($stmt->fetch()) {}
+        while($stmt->fetch()) {
             $user['email'] = $email;
             $user['ePin'] = $ePin;
             $user['balance'] = $balance;
 
             //array_push($users, $user);
-
+        }
 
         return $user;
 
     }
 
     function getUserEvents($findEmail){
-        $stmt = $this->con->prepare("SELECT eventID, eventDate, eventTime, eventName, eventDescription FROM registeredClasses WHERE email ='$findEmail'");
+        $stmt = $this->con->prepare("SELECT classID, className, classLocation, instructorID, reservedSlots, availableSlots, beginDate, endDate, beginHour, beginMin, endHour, endMin, dayOfWeek, classDescription, classImageURL 
+                                            FROM classes 
+                                            WHERE classID IN (SELECT classID FROM registeredclasses WHERE registeredclasses.email='$findEmail')");
+        /*WHERE email ='$findEmail'\") */
         $stmt->execute();
-        $stmt->bind_result($eventID, $eventDate, $eventTime, $eventName, $eventDescription);
+        $stmt->bind_result($classID, $className, $classLocation, $instructorID, $reservedSlots, $availableSlots, $beginDate, $endDate, $beginHour, $beginMin, $endHour, $endMin, $dayOfWeek, $classDescription, $classImageURL);
 
 
         $events = array();
 
         while($stmt->fetch()) {
-            $event = array();
-            $event['eventID'] = $eventID;
-            $event['eventDate'] = $eventDate;
-            $event['eventTime'] = $eventName;
-            $event['eventName'] = $eventName;
-            $event['eventDescription'] = $eventDescription;
+            $event  = array();
+            $event['classID'] = $classID;
+            $event['className'] = $className;
+            $event['instructorID'] = $instructorID;
+            $event['reservedSlots'] = $reservedSlots;
+            $event['availableSlots'] = $availableSlots;
+            $event['beginDate'] = $beginDate;
+            $event['endDate'] = $endDate;
+            $event['beginHour'] = $beginHour;
+            $event['beginMin'] = $beginMin;
+            $event['endHour'] = $endHour;
+            $event['endMin'] = $endMin;
+            $event['dayOfWeek'] = $dayOfWeek;
+            $event['classDescription'] = $classDescription;
+            $event['classImageURL'] = $classImageURL;
 
             array_push($events, $event);
         }
