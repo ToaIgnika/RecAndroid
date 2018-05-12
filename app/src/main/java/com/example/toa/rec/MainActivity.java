@@ -1,5 +1,6 @@
 package com.example.toa.rec;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.toa.rec.Dialogs.LogInDialog;
+import com.example.toa.rec.Fragments.BrowseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,30 +27,13 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_layout);
 
-        TabLayout tabLayout =
+        final TabLayout tabLayout =
                 (TabLayout) findViewById(R.id.tab_layout);
 
         tabLayout.addTab(tabLayout.newTab().setText("Browse"));
         tabLayout.addTab(tabLayout.newTab().setText("My Schedule"));
         tabLayout.addTab(tabLayout.newTab().setText("Survey"));
 
-        final Button loginLogoutButton = findViewById(R.id.loginLogoutButton);
-        loginLogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginHandler lh = new LoginHandler();
-                if (!lh.isLoggedIn(getApplicationContext(), MainActivity.this)) {
-                    LogInDialog d = new LogInDialog(MainActivity.this, v.getId());
-                    d.show();
-                } else {
-
-                    lh.logout(getApplicationContext(), MainActivity.this);
-                    //Toast.makeText(getApplicationContext(), "LOGGING YOU OUT BOI", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-        });
 
 
         final ViewPager viewPager =
@@ -78,5 +63,23 @@ public class MainActivity extends AppCompatActivity  {
 
         });
 
+
+        final Button loginLogoutButton = findViewById(R.id.loginLogoutButton);
+        loginLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginHandler lh = new LoginHandler();
+                if (!lh.isLoggedIn(getApplicationContext(), MainActivity.this)) {
+                    LogInDialog d = new LogInDialog(MainActivity.this, v.getId());
+                    d.show();
+                } else {
+
+                    lh.logout(getApplicationContext(), MainActivity.this);
+                    viewPager.setCurrentItem(0);
+                }
+
+
+            }
+        });
     }
 }

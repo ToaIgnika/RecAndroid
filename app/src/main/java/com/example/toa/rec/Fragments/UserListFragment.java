@@ -53,7 +53,8 @@ public class UserListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_list, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
+
 
         mAdapter = new EventAdapter(eventList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -77,10 +78,16 @@ public class UserListFragment extends Fragment {
 
     private void prepareEventData(JSONObject object) throws JSONException {
 
+        eventList.clear();
+
         JSONArray arr = object.getJSONArray("events");
         //iterate thru them and add
 
         System.out.println("The object is" + object);
+
+        System.out.println("The array is" + arr);
+        System.out.println("The length is" + arr.length());
+        System.out.println("The first element is" + arr.get(0));
 
         for(int i = 0; i < arr.length(); i++) {
             System.out.println("There is an event" + arr.get(i));
@@ -143,12 +150,17 @@ public class UserListFragment extends Fragment {
                     // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
                     prepareEventData(object);
                 } else {
+                    System.out.println("there is an erroro" + object.getString("error"));
+
 
                 }
 
 
 
             } catch (JSONException e) {
+                System.out.println("Caught an error");
+                eventList.clear();
+                mAdapter.notifyDataSetChanged();
                 e.printStackTrace();
                 //Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
 
@@ -167,6 +179,24 @@ public class UserListFragment extends Fragment {
                 return requestHandler.sendGetRequest(url);
 
             return null;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //Write down your refresh code here, it will call every time user come to this fragment.
+            //If you are using listview with custom adapter, just call notifyDataSetChanged().
+
+            HashMap<String, String> params = new HashMap<>();
+            SharedPreferences sharedPref = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+            String email = sharedPref.getString("email", "");
+            params.put("email", email);
+            PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_GET_USER_EVENTS, params, CODE_POST_REQUEST,getContext());
+            pn.execute();
+
+
         }
     }
 }

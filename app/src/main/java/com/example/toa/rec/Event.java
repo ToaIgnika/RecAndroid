@@ -25,7 +25,7 @@ public class Event {
             this.classLocation = j.getString("classLocation");
             this.instructorID = j.getString("instructorID");
             this.beginHour = j.getString("beginHour");
-            this.beginMin = j.getString(" beginMin");
+            this.beginMin = j.getString("beginMin");
             this.endHour = j.getString("endHour");
             this.endMin = j.getString("endMin");
             this.dayOfWeek = j.getString("dayOfWeek");
@@ -46,4 +46,171 @@ public class Event {
         return this;
     }
 
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
+    }
+
+    public String getEventDay() {
+        return eventDay;
+    }
+
+    public void setEventDay(String eventDay) {
+        this.eventDay = eventDay;
+    }
+
+    public String getUsedSlots() {
+        return usedSlots;
+    }
+
+    public void setUsedSlots(String usedSlots) {
+        this.usedSlots = usedSlots;
+    }
+
+    public String getMaxSlots() {
+        return maxSlots;
+    }
+
+    public void setMaxSlots(String maxSlots) {
+        this.maxSlots = maxSlots;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getClassLocation() {
+        return classLocation;
+    }
+
+    public void setClassLocation(String classLocation) {
+        this.classLocation = classLocation;
+    }
+
+    public String getInstructorID() {
+        return instructorID;
+    }
+
+    public void setInstructorID(String instructorID) {
+        this.instructorID = instructorID;
+    }
+
+    public String getBeginHour() {
+        return beginHour;
+    }
+
+    public void setBeginHour(String beginHour) {
+        this.beginHour = beginHour;
+    }
+
+    public String getBeginMin() {
+        return beginMin;
+    }
+
+    public void setBeginMin(String beginMin) {
+        this.beginMin = beginMin;
+    }
+
+    public String getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(String endHour) {
+        this.endHour = endHour;
+    }
+
+    public String getEndMin() {
+        return endMin;
+    }
+
+    public void setEndMin(String endMin) {
+        this.endMin = endMin;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public String getClassDescription() {
+        return classDescription;
+    }
+
+    public void setClassDescription(String classDescription) {
+        this.classDescription = classDescription;
+    }
+
+    public String getClassImageURL() {
+        return classImageURL;
+    }
+
+    public void setClassImageURL(String classImageURL) {
+        this.classImageURL = classImageURL;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getHexColor() {
+        return hexColor;
+    }
+
+    public void setHexColor(String hexColor) {
+        this.hexColor = hexColor;
+    }
 }
