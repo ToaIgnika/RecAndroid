@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity  {
                 } else {
 
                     lh.logout(getApplicationContext(), MainActivity.this);
-                    Toast.makeText(getApplicationContext(), "LOGGING YOU OUT BOI", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "LOGGING YOU OUT BOI", Toast.LENGTH_SHORT).show();
                 }
 
 

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,12 +108,16 @@ public class BrowseFragment extends Fragment {
             super.onPostExecute(s);
             //  progressBar.setVisibility(View.GONE);
             try {
+                System.out.println("XXX" + s);
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
-                    Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     /*ALEX: Loads the events from the json response from the database*/
                     //Toast.makeText(getContext(), "Loaded", Toast.LENGTH_SHORT).show();
                     loadEvents(object.getJSONArray("events"));
+                } else {
+                    //Toast.makeText(getContext(), object.getString("gg"), Toast.LENGTH_SHORT).show();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -149,27 +154,61 @@ public class BrowseFragment extends Fragment {
         displayEvents(getView());
     }
 
-    /*ALEX: Puts the events into the layout and configures it*/
-    private void displayEvents(View v) {
+     private void displayEvents(View v) {
         // Get a reference for the week view in the layout.
+        HorizontalScrollView horizontalScrollView = (HorizontalScrollView) v.findViewById(R.id.horizontal_scroll);
         LinearLayout monday = (LinearLayout) v.findViewById(R.id.calendar_week_1);
         LinearLayout tuesday = (LinearLayout) v.findViewById(R.id.calendar_week_2);
         LinearLayout wednesday = (LinearLayout) v.findViewById(R.id.calendar_week_3);
         LinearLayout thursday = (LinearLayout) v.findViewById(R.id.calendar_week_4);
         LinearLayout friday = (LinearLayout) v.findViewById(R.id.calendar_week_5);
-        LinearLayout[] weekdays = new LinearLayout[5];
+        LinearLayout saturday = (LinearLayout) v.findViewById(R.id.calendar_week_6);
+        LinearLayout sunday = (LinearLayout) v.findViewById(R.id.calendar_week_7);
+        LinearLayout monday2 = (LinearLayout) v.findViewById(R.id.calendar_week_8);
+        LinearLayout tuesday2 = (LinearLayout) v.findViewById(R.id.calendar_week_9);
+        LinearLayout wednesday2 = (LinearLayout) v.findViewById(R.id.calendar_week_10);
+        LinearLayout thursday2 = (LinearLayout) v.findViewById(R.id.calendar_week_11);
+        LinearLayout friday2 = (LinearLayout) v.findViewById(R.id.calendar_week_12);
+        LinearLayout saturday2 = (LinearLayout) v.findViewById(R.id.calendar_week_13);
+        LinearLayout sunday2 = (LinearLayout) v.findViewById(R.id.calendar_week_14);
+        LinearLayout monday3 = (LinearLayout) v.findViewById(R.id.calendar_week_15);
+        LinearLayout tuesday3 = (LinearLayout) v.findViewById(R.id.calendar_week_16);
+        LinearLayout wednesday3 = (LinearLayout) v.findViewById(R.id.calendar_week_17);
+        LinearLayout thursday3 = (LinearLayout) v.findViewById(R.id.calendar_week_18);
+        LinearLayout friday3 = (LinearLayout) v.findViewById(R.id.calendar_week_19);
+        LinearLayout saturday3 = (LinearLayout) v.findViewById(R.id.calendar_week_20);
+        LinearLayout sunday3 = (LinearLayout) v.findViewById(R.id.calendar_week_21);
+
+        LinearLayout[] weekdays = new LinearLayout[21];
         weekdays[0] = monday;
         weekdays[1] = tuesday;
         weekdays[2] = wednesday;
         weekdays[3] = thursday;
         weekdays[4] = friday;
+        weekdays[5] = saturday;
+        weekdays[6] = sunday;
+        weekdays[7] = monday2;
+        weekdays[8] = tuesday2;
+        weekdays[9] = wednesday2;
+        weekdays[10] = thursday2;
+        weekdays[11] = friday2;
+        weekdays[12] = saturday2;
+        weekdays[13] = sunday2;
+        weekdays[14] = monday3;
+        weekdays[15] = tuesday3;
+        weekdays[16] = wednesday3;
+        weekdays[17] = thursday3;
+        weekdays[18] = friday3;
+        weekdays[19] = saturday3;
+        weekdays[20] = sunday3;
+
 
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         buttonParams.weight = 1;
 
-        for (int weekday = 0; weekday < 5; ++weekday) {
+        for (int weekday = 0; weekday < 21; ++weekday) {
             for (int timeslot = 0; timeslot < 5; ++timeslot) {
 
                 // create view for event cell
@@ -203,40 +242,48 @@ public class BrowseFragment extends Fragment {
                 /**
                  * Handle weekday line creation
                  */
-                if (timeslot == 0 && weekday == 0) {
+                if (timeslot == 0 && weekday%7 == 0) {
                     setTextContent(view, "Monday, " + formattedDate);
                     setTextColor(view, Color.BLUE);
-                } else if (timeslot == 0 && weekday == 1) {
+                } else if (timeslot == 0 && weekday%7 == 1) {
                     setTextContent(view, "Tuesday, " + formattedDate);
                     setTextColor(view, Color.BLUE);
-                } else if (timeslot == 0 && weekday == 2) {
+                } else if (timeslot == 0 && weekday%7 == 2) {
                     setTextContent(view, "Wednesday, " + formattedDate);
                     setTextColor(view, Color.BLUE);
-                } else if (timeslot == 0 && weekday == 3) {
+                } else if (timeslot == 0 && weekday%7 == 3) {
                     setTextContent(view, "Thursday, " + formattedDate);
                     setTextColor(view, Color.BLUE);
-                } else if (timeslot == 0 && weekday == 4) {
+                } else if (timeslot == 0 && weekday%7 == 4) {
                     setTextContent(view, "Friday, " + formattedDate);
                     setTextColor(view, Color.BLUE);
+                } else if (timeslot == 0 && weekday%7 == 5) {
+                    setTextContent(view, "Saturday, " + formattedDate);
+                    setTextColor(view, Color.RED);
+                } else if (timeslot == 0 && weekday%7 == 6) {
+                    setTextContent(view, "Sunday, " + formattedDate);
+                    setTextColor(view, Color.RED);
                 } else {
+                    view.setMinimumHeight(150);
+                    if (weekday%7 == 5 || weekday%7 == 6) {
+                        setTextContent(view,"");
+                        weekdays[weekday].addView(view);
+                        continue;
+                    }
                     // attach onclick listener to actual events
                     // TODO: need to handle logic for empty event cells
                     view.setOnClickListener(onCellClickListener);
                 }
 
                 /*ALEX: Adds events from database to each corresponding cell*/
-
+                /*
                 for(int i = 0; i < eventList.size(); i++) {
-                    /*
                     if(eventList.get(i).getTimeSlot() == timeslot) {
                         TextView eventInfo =  view.findViewById(R.id.tv_event_info);
                         eventInfo.setText(eventList.get(i).getName() + "\n" + eventList.get(i).getDescription());
                     }
-                    */
                 }
-
-
-
+                */
                 // add event cell view to appropriate weekday
                 weekdays[weekday].addView(view);
             }

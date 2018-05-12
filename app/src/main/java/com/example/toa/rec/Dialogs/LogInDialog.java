@@ -166,9 +166,9 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                 }
 
                if(object.getJSONObject("user").get("email").equals(null)) {
-                   Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
+                   //Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
                } else {
-                   Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
+                   //Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
                    LoginHandler lh = new LoginHandler();
                    String email = object.getJSONObject("user").getString("email");
                    String ePin = object.getJSONObject("user").getString("ePin");
@@ -183,7 +183,7 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
+                //Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
 
             }
         }

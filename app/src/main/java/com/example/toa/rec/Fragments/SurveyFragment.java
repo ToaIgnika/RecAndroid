@@ -167,7 +167,7 @@ public class SurveyFragment extends Fragment {
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
-                    Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
               }
             } catch (JSONException e) {
                 e.printStackTrace();

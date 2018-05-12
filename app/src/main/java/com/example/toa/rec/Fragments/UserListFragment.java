@@ -150,7 +150,7 @@ public class UserListFragment extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
+                //Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
 
             }
         }
