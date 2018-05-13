@@ -143,35 +143,50 @@ class DbOperation
     }
 
     function getUserEvents($findEmail){
-        $stmt = $this->con->prepare("SELECT classID, className, classLocation, instructorID, reservedSlots, availableSlots, beginDate, endDate, beginHour, beginMin, endHour, endMin, dayOfWeek, classDescription, classImageURL 
-                                            FROM classes 
-                                            WHERE classID IN (SELECT classID FROM registeredclasses WHERE registeredclasses.email='$findEmail')");
-        /*WHERE email ='$findEmail'\") */
-        $stmt->execute();
-        $stmt->bind_result($classID, $className, $classLocation, $instructorID, $reservedSlots, $availableSlots, $beginDate, $endDate, $beginHour, $beginMin, $endHour, $endMin, $dayOfWeek, $classDescription, $classImageURL);
+        $stmt = $this->con->prepare("SELECT eventID, eventDay, usedSlots, maxSlots, active, className, classLocation,
+            c.instructorID, beginHour, beginMin, endHour, endMin, dayOfWeek, classDescription,
+            classImageURL, firstname, lastname, photoURL, bio, categoryName, hexColor 
+				FROM events e
+				LEFT JOIN classes c ON c.classID=e.classID 
+				LEFT JOIN instructors i ON i.instructorID = c.instructorID LEFT JOIN classcategories cc ON c.categoryID = cc.categoryID  
+				WHERE eventID IN (SELECT eventID FROM registeredevents WHERE email = '$findEmail')");
 
+        $stmt->execute();
+
+        $stmt->bind_result($eventID, $eventDay, $usedSlots, $maxSlots, $active, $className, $classLocation,
+            $instructorID, $beginHour, $beginMin, $endHour, $endMin, $dayOfWeek, $classDescription,
+            $classImageURL, $firstname, $lastname, $photoURL, $bio, $categoryName, $hexColor);
 
         $events = array();
 
-        while($stmt->fetch()) {
+        while($stmt->fetch()){
             $event  = array();
-            $event['classID'] = $classID;
+            $event['eventID'] = $eventID;
+            $event['eventDay'] = $eventDay;
+            $event['usedSlots'] = $usedSlots;
+            $event['maxSlots'] = $maxSlots;
+            $event['active'] = $active;
             $event['className'] = $className;
+            $event['classLocation'] = $classLocation;
             $event['instructorID'] = $instructorID;
-            $event['reservedSlots'] = $reservedSlots;
-            $event['availableSlots'] = $availableSlots;
-            $event['beginDate'] = $beginDate;
-            $event['endDate'] = $endDate;
             $event['beginHour'] = $beginHour;
             $event['beginMin'] = $beginMin;
             $event['endHour'] = $endHour;
             $event['endMin'] = $endMin;
+            $event['endMin'] = $endMin;
             $event['dayOfWeek'] = $dayOfWeek;
             $event['classDescription'] = $classDescription;
             $event['classImageURL'] = $classImageURL;
+            $event['firstname'] = $firstname;
+            $event['lastname'] = $lastname;
+            $event['photoURL'] = $photoURL;
+            $event['bio'] = $bio;
+            $event['categoryName'] = $categoryName;
+            $event['hexColor'] = $hexColor;
 
             array_push($events, $event);
         }
+
         return $events;
 
     }
