@@ -122,9 +122,9 @@ class DbOperation
        // $ePin = mysqli_real_escape_string($ePin);
 
 
-        $stmt = $this->con->prepare("SELECT UID, ePin, balance FROM externalusers WHERE email ='$findEmail'");
+        $stmt = $this->con->prepare("SELECT UID, ePin, balance, active FROM externalusers WHERE email ='$findEmail'");
         $stmt->execute();
-        $stmt->bind_result($UID, $ePin, $balance);
+        $stmt->bind_result($UID, $ePin, $balance, $active);
 
         //$users = array();
 
@@ -134,6 +134,7 @@ class DbOperation
             $user['UID'] = $UID;
             $user['ePin'] = $ePin;
             $user['balance'] = $balance;
+            $user['active'] = $active;
             //array_push($users, $user);
         }
 

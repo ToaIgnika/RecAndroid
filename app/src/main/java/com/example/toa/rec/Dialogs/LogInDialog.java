@@ -56,14 +56,6 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.log_in_dialog);
-        /*
-        TextView tv = (TextView) findViewById(R.id.tv_instructor);
-        tv.setText("" + id);
-        yes = (Button) findViewById(R.id.btn_register);
-        no = (Button) findViewById(R.id.btn_back);
-        yes.setOnClickListener(this);
-        no.setOnClickListener(this);
-        */
 
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
@@ -96,13 +88,13 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                 params.put("ePin", password);
 
                 /*
-
                   String email = "asdsa@gmail.com";
-        String ePin =  "64fd40ac74b5aac63ee3307b0a99f774";
+                  String ePin =  "64fd40ac74b5aac63ee3307b0a99f774";
                  */
 
                 PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_GET_USER, params, CODE_POST_REQUEST, getContext() );
                 pn.execute();
+
                 /*
                 if(LH.isValidLogin(email, password)) {
                     LH.saveLoginInfo(getContext(), email, password);
@@ -117,7 +109,6 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                      );
                 }
                 */
-
 
                 break;
             case R.id.btn_back:
@@ -160,24 +151,33 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
 
                 JSONObject object = new JSONObject(s);
 
-
                 if (!object.getBoolean("error")) {
                    // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
                 }
 
                if(object.getJSONObject("user").get("UID").equals(null)) {
-                   //Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
                } else {
-                   //Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
                    LoginHandler lh = new LoginHandler();
                    String email = emailField.getText().toString();
                    String UID = object.getJSONObject("user").getString("UID");
                    String ePin = object.getJSONObject("user").getString("ePin");
                    int balance = object.getJSONObject("user").getInt("balance");
-                   lh.saveLoginInfo(getContext(), email, ePin, UID, balance, activity);
-                   System.out.println("The user email" + email);
-                   System.out.println("The user ePin" + ePin);
-                   dismiss();
+                   int active = object.getJSONObject("user").getInt("active");
+                   if(active == 1) {
+                        // open up a new dialog to reset
+                       Toast.makeText(c, "you need to reset a pin", Toast.LENGTH_SHORT).show();
+                       ResetDialog d = new ResetDialog(activity, id);
+                       dismiss();
+                       d.show();
+
+                   } else {
+                       lh.saveLoginInfo(getContext(), email, ePin, UID, balance, active, activity);
+                       System.out.println("The user email" + email);
+                       System.out.println("The user ePin" + ePin);
+                       dismiss();
+                   }
                }
 
 

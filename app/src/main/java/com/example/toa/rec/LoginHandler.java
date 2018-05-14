@@ -28,13 +28,14 @@ public class LoginHandler {
     String UID;
     String ePin;
 
-    public void saveLoginInfo(Context c, String email, String password, String UID,  int balance, Activity a) {
+    public void saveLoginInfo(Context c, String email, String password, String UID,  int balance, int active,  Activity a) {
         SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("UID", UID);
         editor.putString("email", email);
         editor.putString("password", password);
         editor.putInt("balance", balance);
+        editor.putInt("active", active);
         editor.apply();
         TextView userDisplay = a.findViewById(R.id.userDisplay);
         userDisplay.setText("Welcome: " + email);

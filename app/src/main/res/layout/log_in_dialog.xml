@@ -6,9 +6,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+
+     <TextView
+         android:id="@+id/loginTitle"
+         android:layout_marginTop="10dp"
+
+         android:layout_width="75dp"
+         android:layout_height="wrap_content"
+         android:textSize="10pt"
+         android:text="Log In"
+         android:layout_centerHorizontal="true"
+         />
+
     <EditText
         android:id="@+id/emailField"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/loginTitle"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,12 +34,15 @@
 
     <EditText
         android:id="@+id/passwordField"
-        android:inputType="textPassword"
+        android:inputType="numberPassword"
         android:layout_below="@+id/emailField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="password"
-        android:ems="10"/>
+        android:ems="10"
+        android:maxLength="4"
+        android:layout_centerHorizontal="true"
+        />
 
     <Button
         android:id="@+id/loginButton"
