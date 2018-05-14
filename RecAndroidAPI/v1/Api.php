@@ -118,7 +118,7 @@ if(isset($_GET['apicall'])){
             $db = new DbOperation();
             $response['error'] = false;
             $response['message'] = 'Request sucessfully completed';
-            $response['events'] = $db->getUserEvents($_POST['email']);
+            $response['events'] = $db->getUserEvents($_POST['UID']);
             break;
     }
 

@@ -122,19 +122,18 @@ class DbOperation
        // $ePin = mysqli_real_escape_string($ePin);
 
 
-        $stmt = $this->con->prepare("SELECT email, ePin, balance FROM externalusers WHERE email ='$findEmail'");
+        $stmt = $this->con->prepare("SELECT UID, ePin, balance FROM externalusers WHERE email ='$findEmail'");
         $stmt->execute();
-        $stmt->bind_result($email, $ePin, $balance);
+        $stmt->bind_result($UID, $ePin, $balance);
 
         //$users = array();
 
         $user = array();
 
         while($stmt->fetch()) {
-            $user['email'] = $email;
+            $user['UID'] = $UID;
             $user['ePin'] = $ePin;
             $user['balance'] = $balance;
-
             //array_push($users, $user);
         }
 
@@ -142,14 +141,14 @@ class DbOperation
 
     }
 
-    function getUserEvents($findEmail){
+    function getUserEvents($findUID){
         $stmt = $this->con->prepare("SELECT eventID, eventDay, usedSlots, maxSlots, active, className, classLocation,
             c.instructorID, beginHour, beginMin, endHour, endMin, dayOfWeek, classDescription,
             classImageURL, firstname, lastname, photoURL, bio, categoryName, hexColor 
 				FROM events e
 				LEFT JOIN classes c ON c.classID=e.classID 
 				LEFT JOIN instructors i ON i.instructorID = c.instructorID LEFT JOIN classcategories cc ON c.categoryID = cc.categoryID  
-				WHERE eventID IN (SELECT eventID FROM registeredevents WHERE email = '$findEmail')");
+				WHERE eventID IN (SELECT eventID FROM registeredevents WHERE UID = '$findUID')");
 
         $stmt->execute();
 
