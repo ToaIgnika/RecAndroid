@@ -66,8 +66,9 @@ public class UserListFragment extends Fragment {
 
         HashMap<String, String> params = new HashMap<>();
         SharedPreferences sharedPref = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        String email = sharedPref.getString("email", "");
-        params.put("email", email);
+        String UID = sharedPref.getString("UID", "");
+        System.out.println("Submitting UID " + UID);
+        params.put("UID", UID);
         PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_GET_USER_EVENTS, params, CODE_POST_REQUEST,getContext());
         pn.execute();
 
@@ -87,7 +88,7 @@ public class UserListFragment extends Fragment {
 
         System.out.println("The array is" + arr);
         System.out.println("The length is" + arr.length());
-        System.out.println("The first element is" + arr.get(0));
+       // System.out.println("The first element is" + arr.get(0));
 
         for(int i = 0; i < arr.length(); i++) {
             System.out.println("There is an event" + arr.get(i));
@@ -118,13 +119,13 @@ public class UserListFragment extends Fragment {
 
     /*ALEX: Performs a request using the php scripts to the databsae*/
     private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
-        String url;
+        String UID;
         HashMap<String, String> params;
         int requestCode;
         Context c;
 
-        PerformNetworkRequest(String url, HashMap<String, String> params, int requestCode, Context c) {
-            this.url = url;
+        PerformNetworkRequest(String UID, HashMap<String, String> params, int requestCode, Context c) {
+            this.UID = UID;
             this.params = params;
             this.requestCode = requestCode;
             this.c = c;
@@ -150,7 +151,7 @@ public class UserListFragment extends Fragment {
                     // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
                     prepareEventData(object);
                 } else {
-                    System.out.println("there is an erroro" + object.getString("error"));
+                    System.out.println("there is an error" + object.getString("error"));
 
 
                 }
@@ -172,11 +173,11 @@ public class UserListFragment extends Fragment {
             RequestHandler requestHandler = new RequestHandler();
 
             if (requestCode == CODE_POST_REQUEST)
-                return requestHandler.sendPostRequest(url, params);
+                return requestHandler.sendPostRequest(UID, params);
 
 
             if (requestCode == CODE_GET_REQUEST)
-                return requestHandler.sendGetRequest(url);
+                return requestHandler.sendGetRequest(UID);
 
             return null;
         }
@@ -191,8 +192,8 @@ public class UserListFragment extends Fragment {
 
             HashMap<String, String> params = new HashMap<>();
             SharedPreferences sharedPref = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-            String email = sharedPref.getString("email", "");
-            params.put("email", email);
+            String UID = sharedPref.getString("UID", "");
+            params.put("UID", UID);
             PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_GET_USER_EVENTS, params, CODE_POST_REQUEST,getContext());
             pn.execute();
 

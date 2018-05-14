@@ -25,11 +25,13 @@ import static com.example.toa.rec.Api.CODE_POST_REQUEST;
 public class LoginHandler {
 
     String email;
+    String UID;
     String ePin;
 
-    public void saveLoginInfo(Context c, String email, String password, int balance, Activity a) {
+    public void saveLoginInfo(Context c, String email, String password, String UID,  int balance, Activity a) {
         SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("UID", UID);
         editor.putString("email", email);
         editor.putString("password", password);
         editor.putInt("balance", balance);
@@ -86,6 +88,7 @@ public class LoginHandler {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("email", null);
         editor.putString("password", null);
+        editor.putString("UID", null);
         editor.apply();
         TextView userDisplay = a.findViewById(R.id.userDisplay);
         userDisplay.setText("Welcome: guest");

@@ -165,15 +165,16 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                    // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
                 }
 
-               if(object.getJSONObject("user").get("email").equals(null)) {
+               if(object.getJSONObject("user").get("UID").equals(null)) {
                    //Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
                } else {
                    //Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
                    LoginHandler lh = new LoginHandler();
-                   String email = object.getJSONObject("user").getString("email");
+                   String email = emailField.getText().toString();
+                   String UID = object.getJSONObject("user").getString("UID");
                    String ePin = object.getJSONObject("user").getString("ePin");
                    int balance = object.getJSONObject("user").getInt("balance");
-                   lh.saveLoginInfo(getContext(), email, ePin, balance, activity);
+                   lh.saveLoginInfo(getContext(), email, ePin, UID, balance, activity);
                    System.out.println("The user email" + email);
                    System.out.println("The user ePin" + ePin);
                    dismiss();
