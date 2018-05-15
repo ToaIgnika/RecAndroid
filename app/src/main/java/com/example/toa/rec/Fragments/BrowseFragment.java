@@ -255,7 +255,7 @@ public class BrowseFragment extends Fragment {
                 return;
             }
             mLastClickTime = SystemClock.elapsedRealtime();
-            EventDetailsDialog d = new EventDetailsDialog(getActivity(), v.getId());
+            EventDetailsDialog d = new EventDetailsDialog(getActivity(), eventList.get(v.getId()));
             d.show();
         }
     };
@@ -357,6 +357,7 @@ public class BrowseFragment extends Fragment {
                                 + eventList.get(i).getFirstname()
                         );
                         view.setOnClickListener(onCellClickListener);
+                        view.setId(i);
                         weekdays[weekday].addView(view);
                     }
                 }

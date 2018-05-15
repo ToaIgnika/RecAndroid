@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.toa.rec.Event;
 import com.example.toa.rec.R;
 
 public class EventDetailsDialog extends Dialog implements View.OnClickListener{
@@ -15,12 +16,13 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
     public Dialog d;
     public Button yes, no;
     public int id;
+    Event e;
 
-    public EventDetailsDialog(Activity a, int i) {
+    public EventDetailsDialog(Activity a, Event e) {
         super(a);
         // TODO Auto-generated constructor stub
         this.c = a;
-        id = i;
+        this.e = e;
     }
 
     @Override
@@ -34,6 +36,8 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
         no = (Button) findViewById(R.id.btn_back);
         yes.setOnClickListener(this);
         no.setOnClickListener(this);
+        setEvents();
+
 
     }
 
@@ -50,5 +54,22 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
                 break;
         }
         dismiss();
+    }
+
+    private void setEvents() {
+        TextView holder;
+        holder = (TextView) findViewById(R.id.tv_instructor_name);
+        holder.setText(e.getFirstname());
+        holder = (TextView) findViewById(R.id.tv_instructor_info);
+        holder.setText(e.getBio());
+
+        holder = (TextView) findViewById(R.id.tv_class_name);
+        holder.setText(e.getClassName());
+        holder = (TextView) findViewById(R.id.tv_class_date);
+        holder.setText(e.getEventDay());
+        holder = (TextView) findViewById(R.id.tv_class_location);
+        holder.setText(e.getClassLocation());
+        holder = (TextView) findViewById(R.id.tv_class_details);
+        holder.setText(e.getClassDescription());
     }
 }
