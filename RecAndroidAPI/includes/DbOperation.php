@@ -122,9 +122,9 @@ class DbOperation
        // $ePin = mysqli_real_escape_string($ePin);
 
 
-        $stmt = $this->con->prepare("SELECT UID, ePin, balance, active FROM externalusers WHERE email ='$findEmail'");
+        $stmt = $this->con->prepare("SELECT UID, ePin, balance, resetPin FROM externalusers WHERE email ='$findEmail'");
         $stmt->execute();
-        $stmt->bind_result($UID, $ePin, $balance, $active);
+        $stmt->bind_result($UID, $ePin, $balance, $resetPin);
 
         //$users = array();
 
@@ -134,7 +134,7 @@ class DbOperation
             $user['UID'] = $UID;
             $user['ePin'] = $ePin;
             $user['balance'] = $balance;
-            $user['active'] = $active;
+            $user['resetPin'] = $resetPin;
             //array_push($users, $user);
         }
 
@@ -189,6 +189,15 @@ class DbOperation
 
         return $events;
 
+    }
+
+    function resetPin($newPin, $email) {
+        $stmt = $this->con->prepare("UPDATE externalusers SET ePin = '$newPin' WHERE email = '$email'");
+        $stmt2 = $this->con->prepare("UPDATE externalusers SET resetPin = '0' WHERE email = '$email'");
+
+        if($stmt->execute() && $stmt2->execute())
+            return true;
+        return false;
     }
 
 }

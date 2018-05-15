@@ -33,16 +33,27 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
 
     EditText resetPasswordField;
     EditText confirmPasswordField;
+    String email;
+    String ePin;
+    int resetPin;
+    int balance;
+    String UID;
     public Activity activity;
     public Dialog d;
     public Button resetLoginButton;
     public int id;
+    //email, ePin, UID, balance, resetPin
 
-    public ResetDialog(Activity a, int i) {
+    public ResetDialog(Activity a, int i, String email, String ePin, String UID, int balance, int resetPin) {
         super(a);
         // TODO Auto-generated constructor stub
         this.activity = a;
         id = i;
+        this.email = email;
+        this.ePin = ePin;
+        this.UID = UID;
+        this.balance = balance;
+        this.resetPin = resetPin;
     }
 
     @Override
@@ -66,7 +77,25 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
 
                 if(resetPassword.equals(confirmPassword)) {
                     // execte request
+
+                    MessageDigest md = null;
+                    try {
+                        md = getInstance("MD5");
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
+                    md.reset();
+                    md.update(StandardCharsets.UTF_8.encode(resetPassword + email));
+                    resetPassword = String.format("%032x", new BigInteger(1, md.digest()));
+                    System.out.println("The md5 password is" + resetPassword);
+
+
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("newPin", resetPassword);
+                    params.put("email", email);
                     System.out.println("equal");
+                    PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_RESET_PIN, params, CODE_POST_REQUEST, getContext());
+                    pn.execute();
                 } else {
                      Toast.makeText(getContext(), "Make sure your passwords match!", Toast.LENGTH_SHORT).show();
                      System.out.println("not equal");
@@ -107,41 +136,24 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
             super.onPostExecute(s);
             // progressBar.setVisibility(View.GONE);
             try {
-                //JSONObject object =
-                System.out.println("the values are: " + s);
 
                 JSONObject object = new JSONObject(s);
 
                 if (!object.getBoolean("error")) {
-                    // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+                     Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+                    LoginHandler lh = new LoginHandler();
+                    lh.saveLoginInfo(getContext(), email, ePin, UID, balance, 0, activity);
+                    dismiss();
+                } else {
+
                 }
 
-                if(object.getJSONObject("user").get("UID").equals(null)) {
-                    Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
-                    LoginHandler lh = new LoginHandler();
-//                    String email = resetEmailField.getText().toString();
-                    String UID = object.getJSONObject("user").getString("UID");
-                    String ePin = object.getJSONObject("user").getString("ePin");
-                    int balance = object.getJSONObject("user").getInt("balance");
-                    int active = object.getJSONObject("user").getInt("active");
-                    if(active == 1) {
-                        // open up a new dialog to reset
-                        Toast.makeText(c, "you need to reset a pin", Toast.LENGTH_SHORT).show();
-                    } else {
-  //                      lh.saveLoginInfo(getContext(), email, ePin, UID, balance, active, activity);
-    //                    System.out.println("The user email" + email);
-                        System.out.println("The user ePin" + ePin);
-                        dismiss();
-                    }
-                }
 
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                //Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
+                Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
 
             }
         }

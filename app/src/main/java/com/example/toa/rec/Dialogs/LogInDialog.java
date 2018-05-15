@@ -164,16 +164,16 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                    String UID = object.getJSONObject("user").getString("UID");
                    String ePin = object.getJSONObject("user").getString("ePin");
                    int balance = object.getJSONObject("user").getInt("balance");
-                   int active = object.getJSONObject("user").getInt("active");
-                   if(active == 1) {
+                   int resetPin = object.getJSONObject("user").getInt("resetPin");
+                   if(resetPin == 1) {
                         // open up a new dialog to reset
                        Toast.makeText(c, "you need to reset a pin", Toast.LENGTH_SHORT).show();
-                       ResetDialog d = new ResetDialog(activity, id);
+                       ResetDialog d = new ResetDialog(activity, id, email, ePin, UID, balance, resetPin);
                        dismiss();
                        d.show();
 
                    } else {
-                       lh.saveLoginInfo(getContext(), email, ePin, UID, balance, active, activity);
+                       lh.saveLoginInfo(getContext(), email, ePin, UID, balance, resetPin, activity);
                        System.out.println("The user email" + email);
                        System.out.println("The user ePin" + ePin);
                        dismiss();

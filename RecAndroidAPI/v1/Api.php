@@ -120,6 +120,16 @@ if(isset($_GET['apicall'])){
             $response['message'] = 'Request sucessfully completed';
             $response['events'] = $db->getUserEvents($_POST['UID']);
             break;
+
+        case "resetpin":
+            $db = new DbOperation();
+            $response['error'] = false;
+            $response['message'] = 'New pin has been set';
+            $db->resetPin(
+                $_POST['newPin'],
+                $_POST['email']
+            );
+            break;
     }
 
 }else{
