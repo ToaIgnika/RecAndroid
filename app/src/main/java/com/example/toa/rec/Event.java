@@ -2,7 +2,9 @@ package com.example.toa.rec;
 
 import org.json.JSONObject;
 
-public class Event {
+import java.util.Comparator;
+
+public class Event implements Comparator<Event> {
 
 
 
@@ -212,5 +214,39 @@ public class Event {
 
     public void setHexColor(String hexColor) {
         this.hexColor = hexColor;
+    }
+
+    @Override
+    public String
+    toString() {
+        return "Event{" +
+                "eventID='" + eventID + '\'' +
+                ", eventDay='" + eventDay + '\'' +
+                ", usedSlots='" + usedSlots + '\'' +
+                ", maxSlots='" + maxSlots + '\'' +
+                ", active='" + active + '\'' +
+                ", className='" + className + '\'' +
+                ", classLocation='" + classLocation + '\'' +
+                ", instructorID='" + instructorID + '\'' +
+                ", beginHour='" + beginHour + '\'' +
+                ", beginMin='" + beginMin + '\'' +
+                ", endHour='" + endHour + '\'' +
+                ", endMin='" + endMin + '\'' +
+                ", dayOfWeek='" + dayOfWeek + '\'' +
+                ", classDescription='" + classDescription + '\'' +
+                ", classImageURL='" + classImageURL + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", photoURL='" + photoURL + '\'' +
+                ", bio='" + bio + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", hexColor='" + hexColor + '\'' +
+                '}';
+    }
+
+    @Override
+    public int compare(Event o1, Event o2) {
+
+        return 0;
     }
 }

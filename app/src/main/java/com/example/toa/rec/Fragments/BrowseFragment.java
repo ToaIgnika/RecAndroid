@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.toa.rec.Api;
 import com.example.toa.rec.Dialogs.EventDetailsDialog;
@@ -108,7 +107,6 @@ public class BrowseFragment extends Fragment {
             super.onPostExecute(s);
             //  progressBar.setVisibility(View.GONE);
             try {
-                System.out.println("XXX" + s);
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
                     //Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
@@ -148,13 +146,18 @@ public class BrowseFragment extends Fragment {
             Event newEvent = new Event();
             newEvent.fromJson(obj);
             eventList.add(newEvent);
+            SimpleDateFormat ft =
+                    new SimpleDateFormat ("E yyyy.MM.dd");
+            java.util.Date time=new java.util.Date((long)Integer.valueOf(newEvent.getEventDay())
+                    *1000);
+            //System.out.println("XXX:" + newEvent.getEventDay() + "/" + ft.format(time));
         }
 
         /*ALEX: Calls display events now that we have loaded them to change the schedule layout accordingly*/
         displayEvents(getView());
     }
 
-     private void displayEvents(View v) {
+    private void displayEvents(View v) {
         // Get a reference for the week view in the layout.
         HorizontalScrollView horizontalScrollView = (HorizontalScrollView) v.findViewById(R.id.horizontal_scroll);
         LinearLayout monday = (LinearLayout) v.findViewById(R.id.calendar_week_1);
@@ -202,92 +205,14 @@ public class BrowseFragment extends Fragment {
         weekdays[19] = saturday3;
         weekdays[20] = sunday3;
 
-
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         buttonParams.weight = 1;
 
-        for (int weekday = 0; weekday < 21; ++weekday) {
-            for (int timeslot = 0; timeslot < 5; ++timeslot) {
+        setWeekdays(v, weekdays);
+        setEvents(v, weekdays);
 
-                // create view for event cell
-                View view = getLayoutInflater().inflate(R.layout.event_calendar_cell, null);
-
-                // set width and height based on screen estate
-                int width = v.getWidth();
-                int height = v.getHeight();
-                view.setMinimumWidth(width / 5);
-                view.setMinimumHeight(height / 7);
-                view.setId(weekday * timeslot);
-
-                // create instance of the calendar
-                Calendar calendar = Calendar.getInstance();
-
-                // get todays weekday
-                int day = calendar.get(Calendar.DAY_OF_WEEK);
-
-                // change +/- 1 to edit the dates
-                calendar.add(Calendar.DAY_OF_YEAR, weekday - day + 2);
-
-                // get the date
-                Date c = calendar.getTime();
-                SimpleDateFormat df = new SimpleDateFormat("MMM dd");
-                String formattedDate = df.format(c);
-                //System.out.println("TODAY:"+ formattedDate);
-
-                // int day = calendar.get(Calendar.DAY_OF_WEEK);
-                // System.out.println("WEEKDAY:"+ day);
-
-                /**
-                 * Handle weekday line creation
-                 */
-                if (timeslot == 0 && weekday%7 == 0) {
-                    setTextContent(view, "Monday, " + formattedDate);
-                    setTextColor(view, Color.BLUE);
-                } else if (timeslot == 0 && weekday%7 == 1) {
-                    setTextContent(view, "Tuesday, " + formattedDate);
-                    setTextColor(view, Color.BLUE);
-                } else if (timeslot == 0 && weekday%7 == 2) {
-                    setTextContent(view, "Wednesday, " + formattedDate);
-                    setTextColor(view, Color.BLUE);
-                } else if (timeslot == 0 && weekday%7 == 3) {
-                    setTextContent(view, "Thursday, " + formattedDate);
-                    setTextColor(view, Color.BLUE);
-                } else if (timeslot == 0 && weekday%7 == 4) {
-                    setTextContent(view, "Friday, " + formattedDate);
-                    setTextColor(view, Color.BLUE);
-                } else if (timeslot == 0 && weekday%7 == 5) {
-                    setTextContent(view, "Saturday, " + formattedDate);
-                    setTextColor(view, Color.RED);
-                } else if (timeslot == 0 && weekday%7 == 6) {
-                    setTextContent(view, "Sunday, " + formattedDate);
-                    setTextColor(view, Color.RED);
-                } else {
-                    view.setMinimumHeight(150);
-                    if (weekday%7 == 5 || weekday%7 == 6) {
-                        setTextContent(view,"");
-                        weekdays[weekday].addView(view);
-                        continue;
-                    }
-                    // attach onclick listener to actual events
-                    // TODO: need to handle logic for empty event cells
-                    view.setOnClickListener(onCellClickListener);
-                }
-
-                /*ALEX: Adds events from database to each corresponding cell*/
-                /*
-                for(int i = 0; i < eventList.size(); i++) {
-                    if(eventList.get(i).getTimeSlot() == timeslot) {
-                        TextView eventInfo =  view.findViewById(R.id.tv_event_info);
-                        eventInfo.setText(eventList.get(i).getName() + "\n" + eventList.get(i).getDescription());
-                    }
-                }
-                */
-                // add event cell view to appropriate weekday
-                weekdays[weekday].addView(view);
-            }
-        }
     }
 
     /**
@@ -334,4 +259,125 @@ public class BrowseFragment extends Fragment {
             d.show();
         }
     };
+
+    private void setWeekdays(View v, LinearLayout[] weekdays) {
+        for (int weekday = 0; weekday < 21; ++weekday) {
+            // create view for event cell
+            View view = getLayoutInflater().inflate(R.layout.event_calendar_cell, null);
+            // create view for event cell
+
+            // set width and height based on screen estate
+            int width = v.getWidth();
+            int height = v.getHeight();
+            view.setMinimumWidth(width / 5);
+            view.setMinimumHeight(height / 7);
+            //view.setId(weekday * timeslot);
+
+            // create instance of the calendar
+            Calendar calendar = Calendar.getInstance();
+
+            // get todays weekday
+            int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+            // change +/- 1 to edit the dates
+            calendar.add(Calendar.DAY_OF_YEAR, weekday - day + 2);
+
+            // get the date
+            Date c = calendar.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("MMM dd");
+            String formattedDate = df.format(c);
+
+            /**
+             * Handle weekday line creation
+             */
+            if (weekday%7 == 0) {
+                setTextContent(view, "Monday, " + formattedDate);
+                setTextColor(view, Color.BLUE);
+            } else if (weekday%7 == 1) {
+                setTextContent(view, "Tuesday, " + formattedDate);
+                setTextColor(view, Color.BLUE);
+            } else if (weekday%7 == 2) {
+                setTextContent(view, "Wednesday, " + formattedDate);
+                setTextColor(view, Color.BLUE);
+            } else if (weekday%7 == 3) {
+                setTextContent(view, "Thursday, " + formattedDate);
+                setTextColor(view, Color.BLUE);
+            } else if (weekday%7 == 4) {
+                setTextContent(view, "Friday, " + formattedDate);
+                setTextColor(view, Color.BLUE);
+            } else if (weekday%7 == 5) {
+                setTextContent(view, "Saturday, " + formattedDate);
+                setTextColor(view, Color.RED);
+            } else if (weekday%7 == 6) {
+                setTextContent(view, "Sunday, " + formattedDate);
+                setTextColor(view, Color.RED);
+            } else { }
+
+            weekdays[weekday].addView(view);
+        }
+    }
+
+    private void setEvents(View v, LinearLayout[] weekdays)  {
+        for (int weekday = 0; weekday < 21; ++weekday) {
+
+
+            // create instance of the calendar
+            Calendar calendar = Calendar.getInstance();
+
+            // get todays weekday
+            int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+            // change +/- 1 to edit the dates
+            calendar.add(Calendar.DAY_OF_YEAR, weekday - day + 2);
+
+            // get the date
+            Date c = calendar.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("MMM dd");
+            String formattedDate = df.format(c);
+
+            try {
+                Date cc = df.parse(df.format(c));
+
+                for (int i = 0; i < eventList.size(); ++i) {
+                    long lstamp =Long.parseLong(eventList.get(i).getEventDay() + "000") ;
+                    Date eTime =new Date(lstamp);
+                    System.out.println("SHIT: " + eTime + "|" + c + " |XOXO| " + lstamp);
+                    if (eTime.after(c)) {
+                        //break;
+                    }
+
+                    if (df.format(c).equals(df.format(eTime))) {
+                        System.out.println("Some shit happened today");
+                        View view = createCell(v);
+                        TextView eventInfo =  view.findViewById(R.id.tv_event_info);
+                        eventInfo.setText(eventList.get(i).getClassName() + "\n"
+                                + eventList.get(i).getClassLocation() + "\n"
+                                + eventList.get(i).getBeginHour() + ":" + eventList.get(i).getBeginMin() + "-" + eventList.get(i).getEndHour() + ":" + eventList.get(i).getEndMin()
+                                + eventList.get(i).getClassLocation() + "\n"
+                                + eventList.get(i).getFirstname()
+                        );
+                        view.setOnClickListener(onCellClickListener);
+                        weekdays[weekday].addView(view);
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Fuked up shit" + e);
+            }
+
+        }
+    }
+
+    View  createCell(View v) {
+        // create view for event cell
+        View view = getLayoutInflater().inflate(R.layout.event_calendar_cell, null);
+        // create view for event cell
+
+        // set width and height based on screen estate
+        int width = v.getWidth();
+        int height = v.getHeight();
+        view.setMinimumWidth(width / 5);
+        view.setMinimumHeight(height / 7);
+        //view.setId(weekday * timeslot);
+        return view;
+    }
 }
