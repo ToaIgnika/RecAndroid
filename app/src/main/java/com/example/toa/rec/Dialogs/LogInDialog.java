@@ -188,8 +188,11 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                        System.out.println("The user email" + email);
                        System.out.println("The user ePin" + ePin);
                        dismiss();
-                       EventDetailsDialog d = new EventDetailsDialog(activity, e);
-                       d.show();
+                       if (e != null) {
+                           EventDetailsDialog d = new EventDetailsDialog(activity, e);
+                           d.show();
+                       }
+
                    }
                }
 

@@ -147,8 +147,11 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
                     LoginHandler lh = new LoginHandler();
                     lh.saveLoginInfo(getContext(), email, ePin, UID, balance, 0, activity);
                     dismiss();
-                    EventDetailsDialog edd = new EventDetailsDialog(activity,e);
-                    edd.show();
+                    if (e != null) {
+                        EventDetailsDialog edd = new EventDetailsDialog(activity,e);
+                        edd.show();
+                    }
+                    
                 } else {
 
                 }
