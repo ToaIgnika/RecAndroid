@@ -99,6 +99,12 @@ public class LoginHandler {
         loginLogoutBtn.setText("Login");
    }
 
+    public int getBalance(Context c){
+           SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+           int balance = sharedPref.getInt("balance", 0);
+           return balance;
+ }
+
 
 
 }

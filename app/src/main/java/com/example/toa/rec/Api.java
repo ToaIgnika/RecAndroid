@@ -11,6 +11,7 @@ public class Api {
     public static final String URL_GET_USER = ROOT_URL + "getuser";
     public static final String URL_GET_USER_EVENTS = ROOT_URL + "getuserevents";
     public static final String URL_RESET_PIN = ROOT_URL + "resetpin";
+    public static final String URL_REMOVE_EVENT = ROOT_URL + "removeevent";
     public static final int CODE_GET_REQUEST = 1024;
     public static final int CODE_POST_REQUEST = 1025;
 

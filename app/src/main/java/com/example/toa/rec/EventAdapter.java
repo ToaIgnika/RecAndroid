@@ -7,19 +7,29 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.toa.rec.Dialogs.EventDetailsDialog;
 import com.example.toa.rec.Fragments.UserListFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import static com.example.toa.rec.Api.CODE_GET_REQUEST;
+import static com.example.toa.rec.Api.CODE_POST_REQUEST;
 import static java.lang.Integer.parseInt;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder>  {
@@ -37,6 +47,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         public TextView title, desc, date;
         public Button cancelBtn;
 
+
         public MyViewHolder(final View view)  {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
@@ -51,6 +62,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         public void onClick(View v) {
             clickListener.onItemClick(getAdapterPosition(), v);
         }
+
+
 
     }
 
@@ -75,7 +88,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         final Event event = eventList.get(position);
         holder.title.setText(event.getClassName());
         holder.desc.setText("Description: " + event.getClassDescription());
@@ -97,11 +110,24 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                //perform network request goes here
+                                HashMap<String, String> params = new HashMap<>();
+                                SharedPreferences sharedPref = mContext.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                                String UID = sharedPref.getString("UID", "");
+                                params.put("UID", UID);
+                                String eventID = event.getEventID();
+                                params.put("eventID", eventID);
+                                PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_REMOVE_EVENT, params, CODE_POST_REQUEST, mContext);
+                                pn.execute();
+                                eventList.remove(position);
+                                notifyDataSetChanged();
+
                             }
                         });
                 builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                     }
                 });
 
@@ -117,5 +143,73 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     @Override
     public int getItemCount() {
         return eventList.size();
+    }
+
+    /*ALEX: Performs a request using the php scripts to the databsae*/
+    private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
+        String UID;
+        HashMap<String, String> params;
+        int requestCode;
+        Context c;
+
+        PerformNetworkRequest(String UID, HashMap<String, String> params, int requestCode, Context c) {
+            this.UID = UID;
+            this.params = params;
+            this.requestCode = requestCode;
+            this.c = c;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //   progressBar.setVisibility(View.VISIBLE);
+            System.out.println("We are in pre-execute");
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            // progressBar.setVisibility(View.GONE);
+
+            System.out.println("in post execute" + s);
+            try {
+                //JSONObject object =
+                JSONObject object = new JSONObject(s);
+                if (!object.getBoolean("error")) {
+                     Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+                     Activity a = (Activity) mContext;
+                     LoginHandler lh = new LoginHandler();
+                     int balanceValue = lh.getBalance(mContext) + 1;
+                     Activity act = (Activity) mContext;
+                     TextView tv = act.findViewById(R.id.balanceDisplay);
+                     tv.setText("Balance: " + balanceValue);
+
+
+                } else {
+                    System.out.println("there is an error" + object.getString("error"));
+
+
+                }
+
+
+
+            } catch (JSONException e) {
+
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            RequestHandler requestHandler = new RequestHandler();
+
+            if (requestCode == CODE_POST_REQUEST)
+                return requestHandler.sendPostRequest(UID, params);
+
+
+            if (requestCode == CODE_GET_REQUEST)
+                return requestHandler.sendGetRequest(UID);
+
+            return null;
+        }
     }
 }
