@@ -12,8 +12,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.toa.rec.Event;
+import com.example.toa.rec.LoginHandler;
+import com.example.toa.rec.MainActivity;
 import com.example.toa.rec.R;
 
 import java.io.InputStream;
@@ -49,6 +52,7 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
         setEvents();
 
 
+
     }
 
     @Override
@@ -56,6 +60,7 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.btn_register:
                 dismiss();
+                registerClass();
                 break;
             case R.id.btn_back:
                 dismiss();
@@ -78,7 +83,6 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
         holder = (TextView) findViewById(R.id.tv_instructor_info);
         holder.setText(e.getBio());
 
-
         holder = (TextView) findViewById(R.id.tv_class_name);
         holder.setText(e.getClassName());
         holder = (TextView) findViewById(R.id.tv_class_date);
@@ -98,8 +102,21 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
             System.out.println("Img loader e: " + e);
         }
 
+    }
+
+    public void registerClass(){
+        LoginHandler lh = new LoginHandler();
+        if (!lh.isLoggedIn(c.getApplicationContext(), c)) {
+            LogInDialog d = new LogInDialog(c, e);
+            d.show();
+        } else {
+            Toast.makeText(c, "user is logged in", Toast.LENGTH_LONG).show();
+        }
 
     }
+
+
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

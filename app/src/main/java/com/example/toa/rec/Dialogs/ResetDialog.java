@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
+import com.example.toa.rec.Event;
 import com.example.toa.rec.LoginHandler;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
@@ -42,9 +43,10 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
     public Dialog d;
     public Button resetLoginButton;
     public int id;
+    public Event e;
     //email, ePin, UID, balance, resetPin
 
-    public ResetDialog(Activity a, int i, String email, String ePin, String UID, int balance, int resetPin) {
+    public ResetDialog(Activity a, int i, String email, String ePin, String UID, int balance, int resetPin, Event e) {
         super(a);
         // TODO Auto-generated constructor stub
         this.activity = a;
@@ -54,6 +56,7 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
         this.UID = UID;
         this.balance = balance;
         this.resetPin = resetPin;
+        this.e = e;
     }
 
     @Override
@@ -144,6 +147,8 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
                     LoginHandler lh = new LoginHandler();
                     lh.saveLoginInfo(getContext(), email, ePin, UID, balance, 0, activity);
                     dismiss();
+                    EventDetailsDialog edd = new EventDetailsDialog(activity,e);
+                    edd.show();
                 } else {
 
                 }

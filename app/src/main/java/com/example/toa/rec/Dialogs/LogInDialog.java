@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
+import com.example.toa.rec.Event;
 import com.example.toa.rec.LoginHandler;
 import com.example.toa.rec.MainActivity;
 import com.example.toa.rec.R;
@@ -43,6 +44,7 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
     public Dialog d;
     public Button loginButton;
     public int id;
+    public Event e;
 
     public LogInDialog(Activity a, int i) {
         super(a);
@@ -50,6 +52,15 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
         this.activity = a;
         id = i;
     }
+
+    public LogInDialog(Activity a, Event e) {
+        super(a);
+        // TODO Auto-generated constructor stub
+        this.activity = a;
+        this.e = e;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,7 +179,7 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                    if(resetPin == 1) {
                         // open up a new dialog to reset
                        Toast.makeText(c, "you need to reset a pin", Toast.LENGTH_SHORT).show();
-                       ResetDialog d = new ResetDialog(activity, id, email, ePin, UID, balance, resetPin);
+                       ResetDialog d = new ResetDialog(activity, id, email, ePin, UID, balance, resetPin, e);
                        dismiss();
                        d.show();
 
@@ -177,10 +188,10 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                        System.out.println("The user email" + email);
                        System.out.println("The user ePin" + ePin);
                        dismiss();
+                       EventDetailsDialog d = new EventDetailsDialog(activity, e);
+                       d.show();
                    }
                }
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();

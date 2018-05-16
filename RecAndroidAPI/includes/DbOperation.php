@@ -68,7 +68,7 @@ class DbOperation
     function getEvents(){
         $stmt = $this->con->prepare("SELECT eventID, eventDay, usedSlots, maxSlots, active, className, classLocation,
             c.instructorID, beginHour, beginMin, endHour, endMin, dayOfWeek, classDescription,
-            classImageURL, firstname, lastname, photoURL, bio, categoryName, hexColor FROM events e LEFT JOIN classes c ON c.classID=e.classID LEFT JOIN instructors i ON i.instructorID = c.instructorID LEFT JOIN classcategories cc ON c.categoryID = cc.categoryID");
+            classImageURL, firstname, lastname, photoURL, bio, categoryName, hexColor FROM events e LEFT JOIN classes c ON c.classID=e.classID LEFT JOIN instructors i ON i.instructorID = c.instructorID LEFT JOIN classcategories cc ON c.categoryID = cc.categoryID ORDER BY eventDay, beginHour, beginMin");
         $stmt->execute();
         $stmt->bind_result($eventID, $eventDay, $usedSlots, $maxSlots, $active, $className, $classLocation,
             $instructorID, $beginHour, $beginMin, $endHour, $endMin, $dayOfWeek, $classDescription,
