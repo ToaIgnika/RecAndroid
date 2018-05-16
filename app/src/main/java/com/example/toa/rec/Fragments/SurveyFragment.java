@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,15 +22,20 @@ import android.widget.Toast;
 import com.example.toa.rec.Api;
 import com.example.toa.rec.Dialogs.EventDetailsDialog;
 import com.example.toa.rec.Dialogs.LogInDialog;
+import com.example.toa.rec.Event;
+import com.example.toa.rec.Instructor;
 import com.example.toa.rec.LoginHandler;
 import com.example.toa.rec.MainActivity;
 import com.example.toa.rec.R;
+import com.example.toa.rec.RecClass;
 import com.example.toa.rec.RequestHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +54,13 @@ public class SurveyFragment extends Fragment {
     RatingBar ratingBar;
     EditText commentBox;
 
+    ArrayList<RecClass> classList;
+    ArrayAdapter<RecClass> courseAdapter;
+
+
+    ArrayList<Instructor> instructorList;
+    ArrayAdapter<Instructor> instructorAdapter;
+
 
     public SurveyFragment() {
         // Required empty public constructor
@@ -62,21 +75,23 @@ public class SurveyFragment extends Fragment {
         String [] classes = {"Pilates","Spin","Yoga",};
         String [] instructors = {"John", "Jake", "Jimmy"};
 
-
+        classList = new ArrayList<RecClass>();
+        instructorList = new ArrayList<Instructor>();
 
 
         final View view = inflater.inflate(R.layout.fragment_survey, container, false);
 
         ratingBar = view.findViewById(R.id.RatingBar);
         commentBox = view.findViewById(R.id.CommentBox);
+
         courseSpinner = view.findViewById(R.id.CourseDropDown);
-        ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, classes);
+        courseAdapter = new ArrayAdapter<RecClass>(this.getActivity(), android.R.layout.simple_spinner_item, classList);
         courseAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         courseSpinner.setAdapter(courseAdapter);
 
 
         instructorSpinner = view.findViewById(R.id.InstructorDropDown);
-        ArrayAdapter<String> instructorAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, instructors);
+        instructorAdapter = new ArrayAdapter<Instructor>(this.getActivity(), android.R.layout.simple_spinner_item, instructorList);
         instructorAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         instructorSpinner.setAdapter(instructorAdapter);
 
@@ -110,7 +125,11 @@ public class SurveyFragment extends Fragment {
         });
 
 
+        PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_GET_CLASSES, null, Api.CODE_GET_REQUEST);
+        pn.execute();
 
+        PerformNetworkRequest pn2 = new PerformNetworkRequest(Api.URL_GET_INSTRUCTORS, null, Api.CODE_GET_REQUEST);
+        pn2.execute();
 
         return view;
 
@@ -122,15 +141,24 @@ public class SurveyFragment extends Fragment {
     private void createReview() {
       //
         System.out.println("creating review");
-        String courseName = courseSpinner.getSelectedItem().toString().trim();
-        String instructorName = instructorSpinner.getSelectedItem().toString().trim();
+        //String courseName = courseSpinner.getSelectedItem().toString().trim();
+        //String instructorName = instructorSpinner.getSelectedItem().toString().trim();
+        //SubCategory sc = dataAdapter.getItem(position);
+
+        Instructor inst = instructorAdapter.getItem(instructorSpinner.getSelectedItemPosition());
+        String instructorID = inst.getInstructorID();
+
+        RecClass rc = courseAdapter.getItem(courseSpinner.getSelectedItemPosition());
+        String classID = rc.getClassID();
+
+
         double rating = ratingBar.getRating();
 
         String reviewText  = commentBox.getText().toString();
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("courseName", courseName);
-        params.put("instructorName", instructorName);
+        params.put("classID", classID);
+        params.put("instructorID", instructorID);
         params.put("reviewText", reviewText);
         params.put("starRating", String.valueOf(rating));
 
@@ -167,9 +195,20 @@ public class SurveyFragment extends Fragment {
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
-                    //Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
-              }
+                    Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                    if(url == Api.URL_GET_CLASSES) {
+                        prepareClassData(object);
+                    }
+
+                    if(url == Api.URL_GET_INSTRUCTORS) {
+                        prepareInstructorData(object);
+                    }
+              } else {
+                    Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+
+                }
             } catch (JSONException e) {
+
                 e.printStackTrace();
             }
         }
@@ -190,4 +229,43 @@ public class SurveyFragment extends Fragment {
     }
 
 
+    private void prepareClassData(JSONObject object) throws JSONException {
+
+        classList.clear();
+
+        JSONArray arr = object.getJSONArray("classes");
+        //iterate thru them and add
+
+        System.out.println("The object is" + object);
+
+        System.out.println("The array is" + arr);
+        System.out.println("The length is" + arr.length());
+        // System.out.println("The first element is" + arr.get(0));
+
+        for(int i = 0; i < arr.length(); i++) {
+            System.out.println("There is an event" + arr.get(i));
+            RecClass recClass = new RecClass();
+            JSONObject classObject = (JSONObject) arr.get(i);
+            recClass.fromJson(classObject);
+            classList.add(recClass);
+        }
+        courseAdapter.notifyDataSetChanged();
+    }
+
+    private void prepareInstructorData(JSONObject object) throws JSONException {
+
+        instructorList.clear();
+
+        JSONArray arr = object.getJSONArray("instructors");
+        //iterate thru them and add
+
+        for(int i = 0; i < arr.length(); i++) {
+            System.out.println("There is an event" + arr.get(i));
+            Instructor inst = new Instructor();
+            JSONObject classObject = (JSONObject) arr.get(i);
+            inst.fromJson(classObject);
+            instructorList.add(inst);
+        }
+        instructorAdapter.notifyDataSetChanged();
+    }
 }
