@@ -31,6 +31,7 @@ public class EventViewer extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+
         prepareEventData();
     }
 

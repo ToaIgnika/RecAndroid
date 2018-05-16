@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
+import com.example.toa.rec.Dialogs.EventDetailsDialog;
 import com.example.toa.rec.Event;
 import com.example.toa.rec.EventAdapter;
 import com.example.toa.rec.LoginHandler;
@@ -57,6 +58,14 @@ public class UserListFragment extends Fragment {
 
 
         mAdapter = new EventAdapter(eventList);
+        mAdapter.setOnItemClickListener(new EventAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                System.out.println("onItemClick position" + position);
+                EventDetailsDialog d = new EventDetailsDialog(getActivity(), eventList.get(position));
+                d.show();
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -99,18 +108,8 @@ public class UserListFragment extends Fragment {
         }
 
 
-        /*
-        Event movie = new Event(100,"Mad Max: Fury Road", "Action & Adventure");
-        eventList.add(movie);
 
-        movie = new Event(100,"Inside Out", "Animation, Kids & Family");
-        eventList.add(movie);
 
-        movie = new Event(100,"Star Wars: Episode VII - The Force Awakens", "Action");
-        eventList.add(movie);
-
-        movie = new Event(100,"Shaun the Sheep", "Animation");
-        eventList.add(movie);*/
 
 
         mAdapter.notifyDataSetChanged();
