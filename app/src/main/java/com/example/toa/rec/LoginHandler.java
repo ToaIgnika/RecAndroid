@@ -105,6 +105,12 @@ public class LoginHandler {
            return balance;
  }
 
+ public String getUID (Context c) {
+        SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String uid = sharedPref.getString("UID", "");
+        return uid;
+    }
+
 
 
 }

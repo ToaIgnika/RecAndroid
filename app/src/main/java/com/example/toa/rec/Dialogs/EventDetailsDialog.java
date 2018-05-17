@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.toa.rec.Api;
 import com.example.toa.rec.Event;
 import com.example.toa.rec.LoginHandler;
 import com.example.toa.rec.MainActivity;
@@ -119,7 +120,13 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
             LogInDialog d = new LogInDialog(c, e);
             d.show();
         } else {
-            Toast.makeText(c, "user is logged in", Toast.LENGTH_LONG).show();
+            HashMap<String, String> params = new HashMap<>();
+            params.put("uid", lh.getUID(c.getApplicationContext()));
+            params.put("classid", e.getEventID());
+            PerformNetworkRequest pnr = new PerformNetworkRequest(Api.URL_REGISTER_CLASS, params, CODE_POST_REQUEST);
+            //PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_GET_USER, params, CODE_POST_REQUEST, getContext() );
+            pnr.execute();
+            Toast.makeText(c, "I tried to register", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -153,43 +160,48 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
 
     /*ALEX: Performs a request using the php scripts to the databsae*/
     private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
-        String url;
-        HashMap<String, String> params;
-        int requestCode;
-        Context c;
 
-        PerformNetworkRequest(String url, HashMap<String, String> params, int requestCode, Context c) {
+        /*ALEX: This is the url of the php script to execute*/
+        String url;
+        /*ALEX: A hashmap to store the parameters the php method needs*/
+        HashMap<String, String> params;
+        /*ALEX: A request code to determine post or get*/
+        int requestCode;
+
+        PerformNetworkRequest(String url, HashMap<String, String> params, int requestCode) {
             this.url = url;
             this.params = params;
             this.requestCode = requestCode;
-            this.c = c;
         }
 
+        /*ALEX: Before the task finishes, we can do stuff here like a spinner*/
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //   progressBar.setVisibility(View.VISIBLE);
+            // progressBar.setVisibility(View.VISIBLE);
         }
 
+        /*ALEX: Once the task has finished executing we can do stuff here, i.e. load the display*/
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            // progressBar.setVisibility(View.GONE);
-            try {
+            System.out.println("XDXD: " + s);
 
+            //  progressBar.setVisibility(View.GONE);
+            try {
                 JSONObject object = new JSONObject(s);
 
                 if (!object.getBoolean("error")) {
-                    Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
-
-                    } else {
-
+                    Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                    /*ALEX: Loads the events from the json response from the database*/
+                    //Toast.makeText(getContext(), "User is registered", Toast.LENGTH_SHORT).show();
+                    //loadEvents(object.getJSONArray("events"));
+                } else {
+                    Toast.makeText(getContext(), object.getString("gg"), Toast.LENGTH_SHORT).show();
+                    System.out.println("XDXD: " + s);
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
-
             }
         }
 

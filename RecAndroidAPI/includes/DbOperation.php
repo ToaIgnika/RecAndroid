@@ -206,6 +206,7 @@ class DbOperation
         }
     }
 
+
     function resetPin($newPin, $email) {
         $stmt = $this->con->prepare("UPDATE externalusers SET ePin = '$newPin' WHERE email = '$email'");
         $stmt2 = $this->con->prepare("UPDATE externalusers SET resetPin = '0' WHERE email = '$email'");

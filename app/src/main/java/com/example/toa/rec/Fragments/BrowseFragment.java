@@ -356,6 +356,7 @@ public class BrowseFragment extends Fragment {
                                 + eventList.get(i).getClassLocation() + "\n"
                                 + eventList.get(i).getFirstname()
                         );
+                        setTextColor(view, Color.parseColor(eventList.get(i).getHexColor()));
                         view.setOnClickListener(onCellClickListener);
                         view.setId(i);
                         weekdays[weekday].addView(view);

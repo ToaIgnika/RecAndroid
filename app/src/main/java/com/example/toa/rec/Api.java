@@ -14,6 +14,7 @@ public class Api {
     public static final String URL_REMOVE_EVENT = ROOT_URL + "removeevent";
     public static final String URL_GET_CLASSES = ROOT_URL + "getclasses";
     public static final String URL_GET_INSTRUCTORS = ROOT_URL + "getinstructors";
+    public static final String URL_REGISTER_CLASS = ROOT_URL + "regclass";
     public static final int CODE_GET_REQUEST = 1024;
     public static final int CODE_POST_REQUEST = 1025;
 

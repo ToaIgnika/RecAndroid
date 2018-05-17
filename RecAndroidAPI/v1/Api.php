@@ -130,6 +130,16 @@ if(isset($_GET['apicall'])){
                 $_POST['email']
             );
             break;
+
+        case "regclass":
+            $db = new DbOperation();
+            $response['error'] = false;
+            $response['message'] = 'User is registered!';
+            $db->registerUser(
+                $_POST['uid'],
+                $_POST['classid']
+            );
+            break;
     }
 
 }else{
