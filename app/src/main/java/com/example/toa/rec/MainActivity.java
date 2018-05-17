@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.toa.rec.Dialogs.LogInDialog;
@@ -81,5 +82,17 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         });
+
+        TextView userDisplay = findViewById(R.id.userDisplay);
+        LoginHandler lh = new LoginHandler();
+        if(lh.isLoggedIn(getApplicationContext(), MainActivity.this)){
+            userDisplay.setText("Welcome: " + lh.getEmail(getApplicationContext()));
+            TextView balanceDisplay = findViewById(R.id.balanceDisplay);
+            balanceDisplay.setText("Balance: " + lh.getBalance(getApplicationContext()));
+
+            Button loginLogoutBtn = findViewById(R.id.loginLogoutButton);
+            loginLogoutBtn.setText("Logout");
+
+        }
     }
 }

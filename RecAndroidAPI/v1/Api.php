@@ -52,16 +52,14 @@ if(isset($_GET['apicall'])){
         //if the v1 call value is 'createreview'
         //we will create a record in the database
         case 'createreview':
-            //first check the parameters required for this request are available or not
-            isTheseParametersAvailable(array('courseName', 'instructorName', 'reviewText', 'starRating'));
 
             //creating a new dboperation object
             $db = new DbOperation();
 
             //creating a new record in the database
             $result = $db->createReview(
-                $_POST['courseName'],
-                $_POST['instructorName'],
+                $_POST['classID'],
+                $_POST['instructorID'],
                 $_POST['reviewText'],
                 $_POST['starRating']
             );
@@ -75,8 +73,6 @@ if(isset($_GET['apicall'])){
                 //in message we have a success message
                 $response['message'] = 'Review added successfully';
 
-                //and we are getting all the reviews from the database in the response
-                $response['reviews'] = $db->getReviews();
             } else {
 
                 //if record is not added that means there is an error
@@ -129,6 +125,30 @@ if(isset($_GET['apicall'])){
                 $_POST['newPin'],
                 $_POST['email']
             );
+            break;
+
+        case "removeevent":
+            $db = new DbOperation();
+            $response['error'] = false;
+            $response['message'] = 'Event has been removed';
+            $db->removeEvent(
+                $_POST['UID'],
+                $_POST['eventID']
+            );
+            break;
+
+        case "getclasses":
+            $db = new DbOperation();
+            $response['error'] = false;
+            $response['message'] = 'Classes have been retrieved';
+            $response['classes'] = $db->getClasses();
+            break;
+
+        case "getinstructors":
+            $db = new DbOperation();
+            $response['error'] = false;
+            $response['message'] = 'Instructors have been retrieved';
+            $response['instructors'] = $db->getInstructors();
             break;
 
         case "regclass":

@@ -29,9 +29,12 @@ class DbOperation
     * The create operation
     * When this method is called a new record is created in the database
     */
-    function createReview($courseName, $instructorName, $reviewText, $starRating){
-        $stmt = $this->con->prepare("INSERT INTO reviews (courseName, instructorName, reviewText, starRating) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("sssd", $courseName, $instructorName, $reviewText, $starRating);
+    function createReview($classID, $instructorID, $reviewText, $starRating){
+        $reviewID = $this->gen_uuid();
+        $timeStamp = time();
+
+        $stmt = $this->con->prepare("INSERT INTO reviews (reviewID, instructorID, classID, reviewText, starRating, timeStamp) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssds", $reviewID, $instructorID, $classID, $reviewText, $starRating, $timeStamp);
         if($stmt->execute())
             return true;
         return false;
@@ -59,6 +62,41 @@ class DbOperation
         }
 
         return $reviews;
+    }
+
+    function getClasses(){
+        $stmt = $this->con->prepare("SELECT classID, className FROM classes GROUP BY className");
+        $stmt->execute();
+        $stmt->bind_result($classID, $className);
+
+        $classes = array();
+
+        while($stmt->fetch()){
+            $class  = array();
+            $class['classID'] = $classID;
+            $class['className'] = $className;
+            array_push($classes, $class);
+        }
+
+        return $classes;
+    }
+
+    function getInstructors(){
+        $stmt = $this->con->prepare("SELECT instructorID, firstName, lastName FROM instructors");
+        $stmt->execute();
+        $stmt->bind_result($instructorID, $firstName, $lastName);
+
+        $instructors = array();
+
+        while($stmt->fetch()){
+            $instructor  = array();
+            $instructor['instructorID'] = $instructorID;
+            $instructor['firstName'] = $firstName;
+            $instructor['lastName'] = $lastName;
+            array_push($instructors, $instructor);
+        }
+
+        return $instructors;
     }
 
     /*
@@ -119,7 +157,7 @@ class DbOperation
          */
 
         //$email = mysqli_real_escape_string($email);
-        // $ePin = mysqli_real_escape_string($ePin);
+       // $ePin = mysqli_real_escape_string($ePin);
 
 
         $stmt = $this->con->prepare("SELECT UID, ePin, balance, resetPin FROM externalusers WHERE email ='$findEmail'");
@@ -191,8 +229,6 @@ class DbOperation
 
     }
 
-
-
     function registerUser($uid, $eventid) {
         // set the balance plus one
         $stmt1 = $this->con->prepare("UPDATE externalusers SET balance = balance - 1 WHERE UID = '$uid'");
@@ -206,7 +242,6 @@ class DbOperation
         }
     }
 
-
     function resetPin($newPin, $email) {
         $stmt = $this->con->prepare("UPDATE externalusers SET ePin = '$newPin' WHERE email = '$email'");
         $stmt2 = $this->con->prepare("UPDATE externalusers SET resetPin = '0' WHERE email = '$email'");
@@ -214,6 +249,41 @@ class DbOperation
         if($stmt->execute() && $stmt2->execute())
             return true;
         return false;
+    }
+
+    function removeEvent($UID, $eventID) {
+        // set the balance plus one
+        $stmt1 = $this->con->prepare("UPDATE externalusers SET balance = balance + 1 WHERE UID = '$UID'");
+        $stmt2 = $this->con->prepare("DELETE from registeredevents WHERE UID = '$UID' AND eventID ='$eventID' ");
+        $stmt3 = $this->con->prepare("UPDATE events SET usedslots = usedSlots - 1 WHERE eventID = '$eventID' ");
+
+        if($stmt1->execute()  && $stmt2->execute() && $stmt3->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function gen_uuid() {
+        return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            // 32 bits for "time_low"
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+
+            // 16 bits for "time_mid"
+            mt_rand( 0, 0xffff ),
+
+            // 16 bits for "time_hi_and_version",
+            // four most significant bits holds version number 4
+            mt_rand( 0, 0x0fff ) | 0x4000,
+
+            // 16 bits, 8 bits for "clk_seq_hi_res",
+            // 8 bits for "clk_seq_low",
+            // two most significant bits holds zero and one for variant DCE1.1
+            mt_rand( 0, 0x3fff ) | 0x8000,
+
+            // 48 bits for "node"
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+        );
     }
 
 }
