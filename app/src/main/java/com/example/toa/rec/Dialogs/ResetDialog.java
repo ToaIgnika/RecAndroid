@@ -151,7 +151,7 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
                         EventDetailsDialog edd = new EventDetailsDialog(activity,e);
                         edd.show();
                     }
-                    
+
                 } else {
 
                 }

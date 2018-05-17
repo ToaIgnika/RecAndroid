@@ -2,6 +2,7 @@ package com.example.toa.rec.Dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -18,11 +19,19 @@ import com.example.toa.rec.Event;
 import com.example.toa.rec.LoginHandler;
 import com.example.toa.rec.MainActivity;
 import com.example.toa.rec.R;
+import com.example.toa.rec.RequestHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+
+import static com.example.toa.rec.Api.CODE_GET_REQUEST;
+import static com.example.toa.rec.Api.CODE_POST_REQUEST;
 
 public class EventDetailsDialog extends Dialog implements View.OnClickListener{
     public Activity c;
@@ -139,6 +148,63 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+        }
+    }
+
+    /*ALEX: Performs a request using the php scripts to the databsae*/
+    private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
+        String url;
+        HashMap<String, String> params;
+        int requestCode;
+        Context c;
+
+        PerformNetworkRequest(String url, HashMap<String, String> params, int requestCode, Context c) {
+            this.url = url;
+            this.params = params;
+            this.requestCode = requestCode;
+            this.c = c;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //   progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            // progressBar.setVisibility(View.GONE);
+            try {
+
+                JSONObject object = new JSONObject(s);
+
+                if (!object.getBoolean("error")) {
+                    Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
+
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            RequestHandler requestHandler = new RequestHandler();
+
+            if (requestCode == CODE_POST_REQUEST)
+                return requestHandler.sendPostRequest(url, params);
+
+
+            if (requestCode == CODE_GET_REQUEST)
+                return requestHandler.sendGetRequest(url);
+
+            return null;
         }
     }
 }

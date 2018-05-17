@@ -119,7 +119,7 @@ class DbOperation
          */
 
         //$email = mysqli_real_escape_string($email);
-       // $ePin = mysqli_real_escape_string($ePin);
+        // $ePin = mysqli_real_escape_string($ePin);
 
 
         $stmt = $this->con->prepare("SELECT UID, ePin, balance, resetPin FROM externalusers WHERE email ='$findEmail'");
@@ -189,6 +189,21 @@ class DbOperation
 
         return $events;
 
+    }
+
+
+
+    function registerUser($uid, $eventid) {
+        // set the balance plus one
+        $stmt1 = $this->con->prepare("UPDATE externalusers SET balance = balance - 1 WHERE UID = '$uid'");
+        $stmt2 = $this->con->prepare("INSERT INTO registeredevents (UID, eventID) VALUES (?, ?)");
+        $stmt2->bind_param("ss", $uid, $eventid);
+        $stmt3 = $this->con->prepare("UPDATE events SET usedslots = usedSlots + 1 WHERE eventID = '$eventid' ");
+        if($stmt1->execute()  && $stmt2->execute() && $stmt3->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function resetPin($newPin, $email) {
