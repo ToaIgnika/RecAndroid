@@ -1,8 +1,10 @@
 package com.example.toa.rec.Dialogs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -120,6 +122,21 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
             LogInDialog d = new LogInDialog(c, e);
             d.show();
         } else {
+            if (lh.getBalance(c) <= 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(c);
+                builder.setTitle("Insufficient funds");
+                builder.setMessage("Please, purchase credits at the front desk");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return;
+            }
+
+
             HashMap<String, String> params = new HashMap<>();
             params.put("uid", lh.getUID(c.getApplicationContext()));
             params.put("classid", e.getEventID());
