@@ -17,12 +17,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.toa.rec.Dialogs.EventDetailsDialog;
-import com.example.toa.rec.Fragments.UserListFragment;
+import com.example.toa.rec.ObjectModels.Event;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -32,6 +30,9 @@ import static com.example.toa.rec.Api.CODE_GET_REQUEST;
 import static com.example.toa.rec.Api.CODE_POST_REQUEST;
 import static java.lang.Integer.parseInt;
 
+/**
+ * The EventAdapter allows us to populate and modify a list of events
+ */
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder>  {
 
     private List<Event> eventList;
@@ -63,8 +64,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
             clickListener.onItemClick(getAdapterPosition(), v);
         }
 
-
-
     }
 
     public void setOnItemClickListener(ClickListener clickListener) {
@@ -81,9 +80,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.event_list_row, parent, false);
-
-
-
         return new MyViewHolder(itemView);
     }
 
@@ -98,10 +94,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         date.setTime((long)unixTime*1000);
         holder.date.setText("Date: " + date.toString());
 
+        /**
+         * Determines what to do when we click the "x" to cancel a class
+         */
         holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // open up a dialog saying are you sure you want to cancel this event?
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setCancelable(true);
                 builder.setTitle("Cancel " + event.getClassName());
@@ -110,7 +108,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //perform network request goes here
                                 HashMap<String, String> params = new HashMap<>();
                                 SharedPreferences sharedPref = mContext.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
                                 String UID = sharedPref.getString("UID", "");
@@ -145,7 +142,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         return eventList.size();
     }
 
-    /*ALEX: Performs a request using the php scripts to the databsae*/
+    /**
+     * Performs a request using the php scripts to the database
+     **/
     private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
         String UID;
         HashMap<String, String> params;
@@ -162,18 +161,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //   progressBar.setVisibility(View.VISIBLE);
-            System.out.println("We are in pre-execute");
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            // progressBar.setVisibility(View.GONE);
-
-            System.out.println("in post execute" + s);
             try {
-                //JSONObject object =
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
                      Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();

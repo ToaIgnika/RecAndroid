@@ -1,21 +1,34 @@
-package com.example.toa.rec;
+package com.example.toa.rec.ObjectModels;
 
 import org.json.JSONObject;
 
 import java.util.Comparator;
 
+/**
+ * The event class stores an event object which we retrieve from the database.
+ */
 public class Event implements Comparator<Event> {
 
 
-
+    /**
+     * The private instance variables of the event class (these match the SQL TABLE)
+     */
     private String eventID, eventDay, usedSlots, maxSlots, active, className, classLocation,
     instructorID, beginHour, beginMin, endHour, endMin, dayOfWeek, classDescription,
     classImageURL, firstname, lastname, photoURL, bio, categoryName, hexColor;
 
-
+    /**
+     * Empty constructor
+     */
     public Event() {
     }
 
+    /**
+     * Constructs an event object from a JSON object
+     *
+     * @param j
+     * @return an Event object
+     */
     public Event fromJson(JSONObject j) {
         try {
             this.eventID = j.getString("eventID");
@@ -216,6 +229,11 @@ public class Event implements Comparator<Event> {
         this.hexColor = hexColor;
     }
 
+
+    /**
+     * Overrides the toString method
+     * @return a string representing an Event
+     */
     @Override
     public String
     toString() {
@@ -244,6 +262,12 @@ public class Event implements Comparator<Event> {
                 '}';
     }
 
+    /**
+     * Compares two events
+     * @param o1
+     * @param o2
+     * @return
+     */
     @Override
     public int compare(Event o1, Event o2) {
 

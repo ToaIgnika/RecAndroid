@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
-import com.example.toa.rec.Event;
+import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.LoginHandler;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;

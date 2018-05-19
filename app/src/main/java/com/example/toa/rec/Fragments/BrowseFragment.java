@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.toa.rec.Api;
 import com.example.toa.rec.Dialogs.EventDetailsDialog;
-import com.example.toa.rec.Event;
+import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
 

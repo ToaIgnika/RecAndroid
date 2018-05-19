@@ -15,7 +15,10 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-/*ALEX: This class handles request processing*/
+/**
+ * Handles the processing of requests as they are sent from the app to the DB using our
+ * PHP API
+ **/
 public class RequestHandler {
     public String sendPostRequest(String requestURL,
                                   HashMap<String, String> postDataParams) {

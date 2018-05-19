@@ -1,7 +1,10 @@
-package com.example.toa.rec;
+package com.example.toa.rec.ObjectModels;
 
 import org.json.JSONObject;
 
+/**
+ * Defines an instructor object which retrieves an object from the Database
+ */
 public class Instructor {
     String firstName;
     String lastName;
@@ -9,6 +12,12 @@ public class Instructor {
 
     public Instructor(){};
 
+    /**
+     * Creates an instructor object from a JSON object
+     *
+     * @param j
+     * @return
+     */
     public Instructor fromJson(JSONObject j) {
         try {
             this.firstName = j.getString("firstName");

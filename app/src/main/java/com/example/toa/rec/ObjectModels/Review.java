@@ -1,6 +1,11 @@
-package com.example.toa.rec;
+package com.example.toa.rec.ObjectModels;
+
+/**
+ * Defines a review object which we retrieve from out database
+ */
 
 public class Review {
+
     String courseName;
     String instructorName;
     String reviewText;

@@ -5,13 +5,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.speech.RecognitionListener;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,14 +17,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
-import com.example.toa.rec.Dialogs.EventDetailsDialog;
-import com.example.toa.rec.Dialogs.LogInDialog;
-import com.example.toa.rec.Event;
-import com.example.toa.rec.Instructor;
-import com.example.toa.rec.LoginHandler;
-import com.example.toa.rec.MainActivity;
+import com.example.toa.rec.ObjectModels.Instructor;
 import com.example.toa.rec.R;
-import com.example.toa.rec.RecClass;
+import com.example.toa.rec.ObjectModels.RecClass;
 import com.example.toa.rec.RequestHandler;
 
 import org.json.JSONArray;
@@ -35,9 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**

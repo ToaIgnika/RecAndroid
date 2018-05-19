@@ -21,6 +21,9 @@ import com.example.toa.rec.Fragments.BrowseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Main Activity has a tab layout which contains three fragments
+ */
 public class MainActivity extends AppCompatActivity  {
 
     @Override
@@ -65,6 +68,9 @@ public class MainActivity extends AppCompatActivity  {
         });
 
 
+        /**
+         * Here we define out login and logout button functionality
+         */
         final Button loginLogoutButton = findViewById(R.id.loginLogoutButton);
         loginLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +90,10 @@ public class MainActivity extends AppCompatActivity  {
         });
 
         TextView userDisplay = findViewById(R.id.userDisplay);
+
+        /**
+         * Here we check if the user is already logged in and set our UI accordingly.
+         */
         LoginHandler lh = new LoginHandler();
         if(lh.isLoggedIn(getApplicationContext(), MainActivity.this)){
             userDisplay.setText("Welcome: " + lh.getEmail(getApplicationContext()));

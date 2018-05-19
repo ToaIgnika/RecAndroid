@@ -8,6 +8,9 @@ import com.example.toa.rec.Fragments.BrowseFragment;
 import com.example.toa.rec.Fragments.SurveyFragment;
 import com.example.toa.rec.Fragments.UserListFragment;
 
+/**
+ * This adapter handles switching between fragments
+ */
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
     int tabCount;

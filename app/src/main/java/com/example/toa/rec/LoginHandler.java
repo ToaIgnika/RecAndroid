@@ -22,12 +22,26 @@ import java.util.HashMap;
 import static com.example.toa.rec.Api.CODE_GET_REQUEST;
 import static com.example.toa.rec.Api.CODE_POST_REQUEST;
 
+/**
+ * Defines a LoginLander which does all of the work regarding logging in and logged
+ * in user details
+ */
 public class LoginHandler {
 
     String email;
     String UID;
     String ePin;
 
+    /**
+     * Saves the logged in info if a user has been logged in
+     * @param c
+     * @param email
+     * @param password
+     * @param UID
+     * @param balance
+     * @param resetPin
+     * @param a
+     */
     public void saveLoginInfo(Context c, String email, String password, String UID,  int balance, int resetPin,  Activity a) {
         SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -41,32 +55,25 @@ public class LoginHandler {
         userDisplay.setText("Welcome: " + email);
         TextView balanceDisplay = a.findViewById(R.id.balanceDisplay);
         balanceDisplay.setText("Balance: " + balance);
-
         Button loginLogoutBtn = a.findViewById(R.id.loginLogoutButton);
         loginLogoutBtn.setText("Logout");
     }
 
-    public void isValidLoginRequest(String username,  String password, Context c) {
-        String email = "asdsa@gmail.com";
-        String ePin =  "64fd40ac74b5aac63ee3307b0a99f774";
-       // PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_GET_USER, null, CODE_GET_REQUEST, c);
-        //request.execute();
-    }
 
+    /**
+     * Determines whether the user has been logged in or not
+     *
+     * @param c
+     * @param a
+     * @return
+     */
     public boolean isLoggedIn(Context c, Activity a) {
         SharedPreferences sharedPreferences = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         if(!sharedPreferences.contains("email")){
-            // login
             return false;
         } else if (sharedPreferences.getString("email","").equals(null)) {
-            //login
             return false;
-//            Dialog logInDialog = new LogInDialog(a,1 );
-  //          logInDialog.show();
         } else {
-            //logout
-            System.out.println("returning true" + sharedPreferences.getString("email",""));
-
             return true;
         }
 

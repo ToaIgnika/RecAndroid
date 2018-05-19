@@ -3,7 +3,6 @@ package com.example.toa.rec.Dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,9 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
-import com.example.toa.rec.Event;
+import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.LoginHandler;
-import com.example.toa.rec.MainActivity;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
 
@@ -28,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;

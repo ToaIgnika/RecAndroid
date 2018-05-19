@@ -5,27 +5,22 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.JsonReader;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
-import com.example.toa.rec.Event;
+import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.LoginHandler;
-import com.example.toa.rec.MainActivity;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;

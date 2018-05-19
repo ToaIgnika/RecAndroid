@@ -1,7 +1,10 @@
-package com.example.toa.rec;
+package com.example.toa.rec.ObjectModels;
 
 import org.json.JSONObject;
 
+/**
+ * Defines a class object which we retrieve from the Database
+ */
 public class RecClass {
     String classID;
     String className;
@@ -13,6 +16,12 @@ public class RecClass {
         this.className = className;
     }
 
+    /**
+     * Generates a class object from a JSON object
+     *
+     * @param j
+     * @return
+     */
     public RecClass fromJson(JSONObject j) {
         try {
             this.classID = j.getString("classID");
