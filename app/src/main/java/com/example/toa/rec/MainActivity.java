@@ -1,8 +1,12 @@
 package com.example.toa.rec;
 
+
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity  {
 
         final ViewPager viewPager =
                 (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new TabPagerAdapter
+        final FragmentPagerAdapter adapter = new TabPagerAdapter
                 (getSupportFragmentManager(),
                         tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
@@ -79,10 +83,12 @@ public class MainActivity extends AppCompatActivity  {
                 if (!lh.isLoggedIn(getApplicationContext(), MainActivity.this)) {
                     LogInDialog d = new LogInDialog(MainActivity.this, v.getId());
                     d.show();
+                    refreshFrame(viewPager);
                 } else {
 
                     lh.logout(getApplicationContext(), MainActivity.this);
-                    viewPager.setCurrentItem(0);
+                    //viewPager.setCurrentItem(0);
+                    refreshFrame(viewPager);
                 }
 
 
@@ -104,5 +110,25 @@ public class MainActivity extends AppCompatActivity  {
             loginLogoutBtn.setText("Logout");
 
         }
+    }
+
+    public void refreshFrame(ViewPager vp){
+
+
+        if(vp.getCurrentItem() == 0) {
+            vp.setCurrentItem(0);
+            vp.setCurrentItem(0);
+        }
+
+        if(vp.getCurrentItem() == 1) {
+            vp.setCurrentItem(0);
+            vp.setCurrentItem(0);
+        }
+
+        if(vp.getCurrentItem() == 2) {
+            vp.setCurrentItem(0);
+            vp.setCurrentItem(0);
+        }
+
     }
 }

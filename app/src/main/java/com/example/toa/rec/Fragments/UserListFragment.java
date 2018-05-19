@@ -6,15 +6,20 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.toa.rec.Api;
 import com.example.toa.rec.Dialogs.EventDetailsDialog;
+import com.example.toa.rec.Dialogs.LogInDialog;
+import com.example.toa.rec.LoginHandler;
+import com.example.toa.rec.MainActivity;
 import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.EventAdapter;
 import com.example.toa.rec.R;
@@ -39,6 +44,7 @@ public class UserListFragment extends Fragment {
     private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerView;
     private EventAdapter mAdapter;
+    private TextView loginPlease;
 
 
     public UserListFragment() {
@@ -52,8 +58,23 @@ public class UserListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_list, container, false);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
+        loginPlease = view.findViewById(R.id.loginPlease);
+        LoginHandler lh = new LoginHandler();
+        if (!lh.isLoggedIn(getContext(), getActivity())) {
+            loginPlease.setText("Log in to view your schedule");
+            loginPlease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LogInDialog d = new LogInDialog(getActivity(), v.getId());
+                    d.show();
+                    refreshFragment();
+                }
+            });
 
+        }
+
+
+        recyclerView = view.findViewById(R.id.recycler_view);
 
         mAdapter = new EventAdapter(eventList);
         mAdapter.setOnItemClickListener(new EventAdapter.ClickListener() {
@@ -148,7 +169,9 @@ public class UserListFragment extends Fragment {
                     // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
                     prepareEventData(object);
                 } else {
+
                     System.out.println("there is an error" + object.getString("error"));
+
 
 
                 }
@@ -160,8 +183,6 @@ public class UserListFragment extends Fragment {
                 eventList.clear();
                 mAdapter.notifyDataSetChanged();
                 e.printStackTrace();
-                //Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
-
             }
         }
 
@@ -196,5 +217,10 @@ public class UserListFragment extends Fragment {
 
 
         }
+    }
+
+    public void refreshFragment(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
     }
 }
