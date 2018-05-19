@@ -24,5 +24,15 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/recycler_view"/>
 
+    <Button
+        android:id="@+id/btn_mail_user_sched"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="51dp"
+        android:layout_marginEnd="57dp"
+        android:text="mail me my schedule" />
+
 
 </RelativeLayout>

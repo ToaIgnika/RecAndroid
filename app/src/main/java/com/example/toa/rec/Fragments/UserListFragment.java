@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.toa.rec.Api;
@@ -100,7 +101,19 @@ public class UserListFragment extends Fragment {
         PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_GET_USER_EVENTS, params, CODE_POST_REQUEST,getContext());
         pn.execute();
 
-
+        Button mail_button = (Button) view.findViewById(R.id.btn_mail_user_sched);
+        mail_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HashMap<String, String> prms = new HashMap<>();
+                SharedPreferences sharedPref = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                String UID = sharedPref.getString("UID", "");
+                System.out.println("Submitting UID " + UID);
+                prms.put("UID", UID);
+                PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_MAIL_USER_EVENTS, prms, CODE_POST_REQUEST,getContext());
+                pn.execute();
+            }
+        });
 
         return view;
     }
@@ -149,6 +162,7 @@ public class UserListFragment extends Fragment {
             this.c = c;
         }
 
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -165,18 +179,13 @@ public class UserListFragment extends Fragment {
             try {
                 //JSONObject object =
                 JSONObject object = new JSONObject(s);
-                if (!object.getBoolean("error")) {
-                    // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+                //System.out.println("MAIL:" + s);
+
+                if (!object.getBoolean("error") && !object.getString("message").equals("m")) {
                     prepareEventData(object);
                 } else {
-
                     System.out.println("there is an error" + object.getString("error"));
-
-
-
                 }
-
-
 
             } catch (JSONException e) {
                 System.out.println("Caught an error");
