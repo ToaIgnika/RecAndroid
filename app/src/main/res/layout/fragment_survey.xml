@@ -57,7 +57,8 @@
             android:layout_below="@id/InstructorDropDown"
             android:id="@+id/CommentBox"
             android:layout_width="fill_parent"
-            android:layout_height="300dp" />
+            android:layout_height="300dp"
+            />
 
         <RatingBar
             android:layout_below="@id/CommentBox"

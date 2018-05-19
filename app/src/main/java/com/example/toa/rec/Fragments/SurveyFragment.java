@@ -2,13 +2,16 @@ package com.example.toa.rec.Fragments;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +31,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
 /**
@@ -121,10 +126,31 @@ public class SurveyFragment extends Fragment {
         PerformNetworkRequest pn2 = new PerformNetworkRequest(Api.URL_GET_INSTRUCTORS, null, Api.CODE_GET_REQUEST);
         pn2.execute();
 
+        courseSpinner.setFocusable(false);
+        instructorSpinner.setFocusable(false);
+        commentBox.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == 66) {
+                    hideKeyboard(v);
+                    return true; //this is required to stop sending key event to parent
+                }
+                return false;
+            }
+        });
+
         return view;
 
 
 
+    }
+
+
+
+    private void hideKeyboard (View view) {
+        InputMethodManager manager = (InputMethodManager) view.getContext()
+                .getSystemService(INPUT_METHOD_SERVICE);
+        if (manager != null)
+            manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     /*ALEX: Creates a review object and puts it in the database*/
