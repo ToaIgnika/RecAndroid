@@ -44,6 +44,16 @@ public class LoginHandler {
     }
 
 
+    public void updateBalance(Context c, int balance, Activity a) {
+        SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("balance", balance);
+        editor.apply();
+        TextView balanceDisplay = a.findViewById(R.id.balanceDisplay);
+        balanceDisplay.setText("Balance: " + balance);
+    }
+
+
     /**
      * Determines whether the user has been logged in or not
      *
@@ -101,6 +111,8 @@ public class LoginHandler {
         String uid = sharedPref.getString("UID", "");
         return uid;
     }
+
+
 
 
 

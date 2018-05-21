@@ -88,13 +88,7 @@ public class MainActivity extends AppCompatActivity  {
          */
         LoginHandler lh = new LoginHandler();
         if(lh.isLoggedIn(getApplicationContext(), MainActivity.this)){
-            userDisplay.setText("Welcome: " + lh.getEmail(getApplicationContext()));
-            TextView balanceDisplay = findViewById(R.id.balanceDisplay);
-            balanceDisplay.setText("Balance: " + lh.getBalance(getApplicationContext()));
-
-            Button loginLogoutBtn = findViewById(R.id.loginLogoutButton);
-            loginLogoutBtn.setText("Logout");
-
+            lh.logout(getApplicationContext(), MainActivity.this);
         }
     }
 

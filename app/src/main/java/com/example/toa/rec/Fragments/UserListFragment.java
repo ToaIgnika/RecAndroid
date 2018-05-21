@@ -179,7 +179,7 @@ public class UserListFragment extends Fragment {
                 JSONObject object = new JSONObject(s);
                 //System.out.println("MAIL:" + s);
 
-                if (!object.getBoolean("error") && !object.getString("message").equals("m")) {
+                if (!object.getBoolean("error")){ // && !object.getString("message").equals("m")) {
                     prepareEventData(object);
                 } else {
                     System.out.println("there is an error" + object.getString("error"));

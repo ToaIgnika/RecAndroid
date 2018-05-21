@@ -210,6 +210,8 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
                     /*ALEX: Loads the events from the json response from the database*/
                     //Toast.makeText(getContext(), "User is registered", Toast.LENGTH_SHORT).show();
                     //loadEvents(object.getJSONArray("events"));
+                    LoginHandler lh = new LoginHandler();
+                    lh.updateBalance(getContext(), lh.getBalance(getContext())-1, c);
                 } else {
                     Toast.makeText(getContext(), object.getString("gg"), Toast.LENGTH_SHORT).show();
                     System.out.println("XDXD: " + s);

@@ -33,30 +33,28 @@
             app:tabGravity="fill"/>
 
 
-        <TextView
-            android:id="@+id/userDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Welcome: guest"
-            />
+            <TextView
+                android:id="@+id/userDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Welcome: guest" />
 
             <TextView
                 android:id="@+id/balanceDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/userDisplay"
-                android:text=""
-                />
+                android:layout_alignEnd="@+id/userDisplay"
+                android:layout_below="@+id/userDisplay" />
 
             <Button
                 android:id="@+id/loginLogoutButton"
-                android:layout_below="@+id/balanceDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Login"/>
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:text="Login" />
 
         </RelativeLayout>
 
