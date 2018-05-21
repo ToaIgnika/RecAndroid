@@ -63,14 +63,15 @@ public class UserListFragment extends Fragment {
         LoginHandler lh = new LoginHandler();
         if (!lh.isLoggedIn(getContext(), getActivity())) {
             loginPlease.setText("Log in to view your schedule");
+            /*
             loginPlease.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LogInDialog d = new LogInDialog(getActivity(), v.getId());
                     d.show();
-                    refreshFragment();
                 }
             });
+            */
 
         }
 
@@ -193,6 +194,9 @@ public class UserListFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
                 e.printStackTrace();
             }
+
+            mAdapter.notifyDataSetChanged();
+
         }
 
         @Override
@@ -228,8 +232,5 @@ public class UserListFragment extends Fragment {
         }
     }
 
-    public void refreshFragment(){
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
-    }
+
 }

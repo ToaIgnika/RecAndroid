@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity  {
                 } else {
 
                     lh.logout(getApplicationContext(), MainActivity.this);
-                    //viewPager.setCurrentItem(0);
                     refreshFrame(viewPager);
                 }
 

@@ -26,6 +26,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 BrowseFragment tab1 = new BrowseFragment();
+
                 return tab1;
             case 1:
                 UserListFragment tab2 = new UserListFragment();
