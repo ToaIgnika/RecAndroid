@@ -169,7 +169,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
-                    Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c, object.getString("The class has been removed from your schedule"), Toast.LENGTH_SHORT).show();
                     Activity a = (Activity) mContext;
                     LoginHandler lh = new LoginHandler();
                     lh.updateBalance(mContext,lh.getBalance(mContext)+1,a);

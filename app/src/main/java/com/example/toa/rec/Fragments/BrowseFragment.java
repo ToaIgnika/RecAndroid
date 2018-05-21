@@ -106,17 +106,12 @@ public class BrowseFragment extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             //  progressBar.setVisibility(View.GONE);
-            System.out.println("HHH" + s);
             try {
                 JSONObject object = new JSONObject(s);
 
                 if (!object.getBoolean("error")) {
-                    //Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                    /*ALEX: Loads the events from the json response from the database*/
-                    //Toast.makeText(getContext(), "Loaded", Toast.LENGTH_SHORT).show();
                     loadEvents(object.getJSONArray("events"));
                 } else {
-                    //Toast.makeText(getContext(), object.getString("gg"), Toast.LENGTH_SHORT).show();
 
                 }
             } catch (JSONException e) {
@@ -152,7 +147,6 @@ public class BrowseFragment extends Fragment {
                     new SimpleDateFormat ("E yyyy.MM.dd");
             java.util.Date time=new java.util.Date((long)Integer.valueOf(newEvent.getEventDay())
                     *1000);
-            //System.out.println("XXX:" + newEvent.getEventDay() + "/" + ft.format(time));
         }
 
         /*ALEX: Calls display events now that we have loaded them to change the schedule layout accordingly*/
@@ -343,13 +337,11 @@ public class BrowseFragment extends Fragment {
                 for (int i = 0; i < eventList.size(); ++i) {
                     long lstamp =Long.parseLong(eventList.get(i).getEventDay() + "000") ;
                     Date eTime =new Date(lstamp);
-                    System.out.println("SHIT: " + eTime + "|" + c + " |XOXO| " + lstamp);
                     if (eTime.after(c)) {
                         //break;
                     }
 
                     if (df.format(c).equals(df.format(eTime))) {
-                        System.out.println("Some shit happened today");
                         View view = createCell(v);
                         TextView eventInfo =  view.findViewById(R.id.tv_event_info);
                         eventInfo.setText(eventList.get(i).getClassName() + "\n"
@@ -365,7 +357,8 @@ public class BrowseFragment extends Fragment {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Fuked up shit" + e);
+                e.printStackTrace();
+
             }
 
         }

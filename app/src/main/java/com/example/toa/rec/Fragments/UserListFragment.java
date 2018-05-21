@@ -39,7 +39,7 @@ import static com.example.toa.rec.Api.CODE_POST_REQUEST;
  * A simple {@link Fragment} subclass.
  */
 public class UserListFragment extends Fragment {
-    private List<Event> eventList = new ArrayList<>();
+    public List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerView;
     private EventAdapter mAdapter;
     private TextView loginPlease;
@@ -123,16 +123,8 @@ public class UserListFragment extends Fragment {
         eventList.clear();
 
         JSONArray arr = object.getJSONArray("events");
-        //iterate thru them and add
-
-        System.out.println("The object is" + object);
-
-        System.out.println("The array is" + arr);
-        System.out.println("The length is" + arr.length());
-        // System.out.println("The first element is" + arr.get(0));
 
         for(int i = 0; i < arr.length(); i++) {
-            System.out.println("There is an event" + arr.get(i));
             Event event = new Event();
             JSONObject eventObject = (JSONObject) arr.get(i);
             event.fromJson(eventObject);
@@ -166,8 +158,6 @@ public class UserListFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //   progressBar.setVisibility(View.VISIBLE);
-            System.out.println("We are in pre-execute");
         }
 
         @Override
@@ -175,20 +165,16 @@ public class UserListFragment extends Fragment {
             super.onPostExecute(s);
             // progressBar.setVisibility(View.GONE);
 
-            System.out.println("in post execute" + s);
             try {
                 //JSONObject object =
                 JSONObject object = new JSONObject(s);
-                //System.out.println("MAIL:" + s);
-
                 if (!object.getBoolean("error")){ // && !object.getString("message").equals("m")) {
                     prepareEventData(object);
                 } else {
-                    System.out.println("there is an error" + object.getString("error"));
+
                 }
 
             } catch (JSONException e) {
-                System.out.println("Caught an error");
                 eventList.clear();
                 mAdapter.notifyDataSetChanged();
                 e.printStackTrace();
@@ -217,8 +203,6 @@ public class UserListFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            //Write down your refresh code here, it will call every time user come to this fragment.
-            //If you are using listview with custom adapter, just call notifyDataSetChanged().
 
             HashMap<String, String> params = new HashMap<>();
             SharedPreferences sharedPref = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);

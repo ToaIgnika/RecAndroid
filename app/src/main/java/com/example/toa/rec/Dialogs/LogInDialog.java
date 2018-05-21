@@ -81,7 +81,6 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                     md.reset();
                     md.update(StandardCharsets.UTF_8.encode(password + email));
                     password = String.format("%032x", new BigInteger(1, md.digest()));
-                    System.out.println("The md5 password is" + password);
 
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
@@ -93,28 +92,9 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                 params.put("email", email);
                 params.put("ePin", password);
 
-                /*
-                  String email = "asdsa@gmail.com";
-                  String ePin =  "64fd40ac74b5aac63ee3307b0a99f774";
-                 */
 
                 PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_GET_USER, params, CODE_POST_REQUEST, getContext() );
                 pn.execute();
-
-                /*
-                if(LH.isValidLogin(email, password)) {
-                    LH.saveLoginInfo(getContext(), email, password);
-                    System.out.println("The new password is" + LH.getEmail(getContext()));
-                    System.out.println("The new email is" + LH.getPassword(getContext()));
-                    Toast.makeText(getContext(), "SUCCESS", Toast.LENGTH_LONG).show();
-
-                    dismiss();
-                } else {
-                     Toast.makeText(getContext(), "WRONG", Toast.LENGTH_LONG).show(
-
-                     );
-                }
-                */
 
                 break;
             case R.id.btn_back:
@@ -123,8 +103,7 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
             default:
                 break;
         }
-//        dismiss();
-    }
+}
 
 
     /*ALEX: Performs a request using the php scripts to the databsae*/
@@ -150,21 +129,18 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            // progressBar.setVisibility(View.GONE);
             try {
-                //JSONObject object =
-                System.out.println("the values are: " + s);
 
                 JSONObject object = new JSONObject(s);
 
                 if (!object.getBoolean("error")) {
-                    // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+
                 }
 
                 if(object.getJSONObject("user").get("UID").equals(null)) {
                     Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c, "You have been logged in", Toast.LENGTH_SHORT).show();
                     LoginHandler lh = new LoginHandler();
                     String email = emailField.getText().toString();
                     String UID = object.getJSONObject("user").getString("UID");
@@ -173,15 +149,13 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                     int resetPin = object.getJSONObject("user").getInt("resetPin");
                     if(resetPin == 1) {
                         // open up a new dialog to reset
-                        Toast.makeText(c, "you need to reset a pin", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(c, "You need to reset your pin", Toast.LENGTH_SHORT).show();
                         ResetDialog d = new ResetDialog(activity, id, email, ePin, UID, balance, resetPin, e);
                         dismiss();
                         d.show();
 
                     } else {
                         lh.saveLoginInfo(getContext(), email, ePin, UID, balance, resetPin, activity);
-                        System.out.println("The user email" + email);
-                        System.out.println("The user ePin" + ePin);
                         dismiss();
                         if (e != null) {
                             EventDetailsDialog d = new EventDetailsDialog(activity, e);
@@ -193,7 +167,6 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                //Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
 
             }
         }

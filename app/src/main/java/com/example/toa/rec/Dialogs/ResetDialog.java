@@ -90,18 +90,15 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
                     md.reset();
                     md.update(StandardCharsets.UTF_8.encode(resetPassword + email));
                     resetPassword = String.format("%032x", new BigInteger(1, md.digest()));
-                    System.out.println("The md5 password is" + resetPassword);
 
 
                     HashMap<String, String> params = new HashMap<>();
                     params.put("newPin", resetPassword);
                     params.put("email", email);
-                    System.out.println("equal");
                     PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_RESET_PIN, params, CODE_POST_REQUEST, getContext());
                     pn.execute();
                 } else {
                     Toast.makeText(getContext(), "Make sure your passwords match!", Toast.LENGTH_SHORT).show();
-                    System.out.println("not equal");
                 }
 
                 break;
@@ -131,13 +128,11 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //   progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            // progressBar.setVisibility(View.GONE);
             try {
 
                 JSONObject object = new JSONObject(s);
@@ -161,8 +156,6 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(c, "SHIT FUCKED UP", Toast.LENGTH_LONG).show();
-
             }
         }
 

@@ -52,8 +52,6 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.event_details_dialog);
-        //TextView tv = (TextView) findViewById(R.id.tv_instructor);
-        //tv.setText("" + id);
         yes = (Button) findViewById(R.id.btn_register);
         no = (Button) findViewById(R.id.btn_back);
         yes.setOnClickListener(this);
@@ -138,9 +136,7 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
             params.put("uid", lh.getUID(c.getApplicationContext()));
             params.put("classid", e.getEventID());
             PerformNetworkRequest pnr = new PerformNetworkRequest(Api.URL_REGISTER_CLASS, params, CODE_POST_REQUEST);
-            //PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_GET_USER, params, CODE_POST_REQUEST, getContext() );
             pnr.execute();
-            Toast.makeText(c, "I tried to register", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -199,22 +195,21 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            System.out.println("XDXD: " + s);
 
             //  progressBar.setVisibility(View.GONE);
             try {
                 JSONObject object = new JSONObject(s);
 
-                if (!object.getBoolean("error") && object.getBoolean("success")) {
-                    Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                if (!object.getBoolean("error")) {
                     /*ALEX: Loads the events from the json response from the database*/
                     //Toast.makeText(getContext(), "User is registered", Toast.LENGTH_SHORT).show();
                     //loadEvents(object.getJSONArray("events"));
                     LoginHandler lh = new LoginHandler();
                     lh.updateBalance(getContext(), lh.getBalance(getContext())-1, c);
+                    Toast.makeText(getContext(), "Your registration request has been sent", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    Toast.makeText(getContext(), object.getString("gg"), Toast.LENGTH_SHORT).show();
-                    System.out.println("XDXD: " + s);
+                    Toast.makeText(getContext(), "We were unable to register you", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -235,5 +230,6 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
             return null;
         }
     }
+
 }
 

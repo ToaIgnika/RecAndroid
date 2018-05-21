@@ -158,11 +158,6 @@ public class SurveyFragment extends Fragment {
 
     /*ALEX: Creates a review object and puts it in the database*/
     private void createReview() {
-        //
-        System.out.println("creating review");
-        //String courseName = courseSpinner.getSelectedItem().toString().trim();
-        //String instructorName = instructorSpinner.getSelectedItem().toString().trim();
-        //SubCategory sc = dataAdapter.getItem(position);
 
         Instructor inst = instructorAdapter.getItem(instructorSpinner.getSelectedItemPosition());
         String instructorID = inst.getInstructorID();
@@ -185,8 +180,8 @@ public class SurveyFragment extends Fragment {
 
         PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_REVIEW, params, CODE_POST_REQUEST);
         request.execute();
+        Toast.makeText(getContext(), "Your review has been submitted.", Toast.LENGTH_SHORT).show();
         clearForm();
-        System.out.println("created");
     }
 
     /*ALEX: Performs a request using the php scripts to the databsae*/
@@ -214,7 +209,6 @@ public class SurveyFragment extends Fragment {
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
-                    Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     if(url == Api.URL_GET_CLASSES) {
                         prepareClassData(object);
                     }
@@ -223,7 +217,6 @@ public class SurveyFragment extends Fragment {
                         prepareInstructorData(object);
                     }
                 } else {
-                    Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
 
                 }
             } catch (JSONException e) {
@@ -253,16 +246,8 @@ public class SurveyFragment extends Fragment {
         classList.clear();
 
         JSONArray arr = object.getJSONArray("classes");
-        //iterate thru them and add
-
-        System.out.println("The object is" + object);
-
-        System.out.println("The array is" + arr);
-        System.out.println("The length is" + arr.length());
-        // System.out.println("The first element is" + arr.get(0));
 
         for(int i = 0; i < arr.length(); i++) {
-            System.out.println("There is an event" + arr.get(i));
             RecClass recClass = new RecClass();
             JSONObject classObject = (JSONObject) arr.get(i);
             recClass.fromJson(classObject);
@@ -279,7 +264,6 @@ public class SurveyFragment extends Fragment {
         //iterate thru them and add
 
         for(int i = 0; i < arr.length(); i++) {
-            System.out.println("There is an event" + arr.get(i));
             Instructor inst = new Instructor();
             JSONObject classObject = (JSONObject) arr.get(i);
             inst.fromJson(classObject);
