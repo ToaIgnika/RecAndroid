@@ -20,6 +20,7 @@
 
     <EditText
         android:id="@+id/emailField"
+        android:inputType="textEmailAddress"
         android:layout_below="@+id/loginTitle"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"

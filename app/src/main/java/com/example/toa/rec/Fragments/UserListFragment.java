@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,11 +17,9 @@ import android.widget.TextView;
 
 import com.example.toa.rec.Api;
 import com.example.toa.rec.Dialogs.EventDetailsDialog;
-import com.example.toa.rec.Dialogs.LogInDialog;
-import com.example.toa.rec.LoginHandler;
-import com.example.toa.rec.MainActivity;
-import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.EventAdapter;
+import com.example.toa.rec.LoginHandler;
+import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
 
@@ -130,7 +127,7 @@ public class UserListFragment extends Fragment {
 
         System.out.println("The array is" + arr);
         System.out.println("The length is" + arr.length());
-       // System.out.println("The first element is" + arr.get(0));
+        // System.out.println("The first element is" + arr.get(0));
 
         for(int i = 0; i < arr.length(); i++) {
             System.out.println("There is an event" + arr.get(i));

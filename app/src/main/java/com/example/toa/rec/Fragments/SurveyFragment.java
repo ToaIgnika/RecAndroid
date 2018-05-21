@@ -21,8 +21,8 @@ import android.widget.Toast;
 
 import com.example.toa.rec.Api;
 import com.example.toa.rec.ObjectModels.Instructor;
-import com.example.toa.rec.R;
 import com.example.toa.rec.ObjectModels.RecClass;
+import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
 
 import org.json.JSONArray;
@@ -138,13 +138,16 @@ public class SurveyFragment extends Fragment {
             }
         });
 
+        commentBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        });
+
         return view;
-
-
-
     }
-
-
 
     private void hideKeyboard (View view) {
         InputMethodManager manager = (InputMethodManager) view.getContext()
@@ -155,7 +158,7 @@ public class SurveyFragment extends Fragment {
 
     /*ALEX: Creates a review object and puts it in the database*/
     private void createReview() {
-      //
+        //
         System.out.println("creating review");
         //String courseName = courseSpinner.getSelectedItem().toString().trim();
         //String instructorName = instructorSpinner.getSelectedItem().toString().trim();
@@ -182,7 +185,7 @@ public class SurveyFragment extends Fragment {
 
         PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_REVIEW, params, CODE_POST_REQUEST);
         request.execute();
-
+        clearForm();
         System.out.println("created");
     }
 
@@ -201,13 +204,13 @@ public class SurveyFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-         //   progressBar.setVisibility(View.VISIBLE);
+            //   progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-           // progressBar.setVisibility(View.GONE);
+            // progressBar.setVisibility(View.GONE);
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
@@ -219,7 +222,7 @@ public class SurveyFragment extends Fragment {
                     if(url == Api.URL_GET_INSTRUCTORS) {
                         prepareInstructorData(object);
                     }
-              } else {
+                } else {
                     Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
 
                 }
@@ -283,5 +286,10 @@ public class SurveyFragment extends Fragment {
             instructorList.add(inst);
         }
         instructorAdapter.notifyDataSetChanged();
+    }
+
+    private void clearForm() {
+        EditText et = (EditText) getView().findViewById(R.id.CommentBox);
+        et.setText("");
     }
 }

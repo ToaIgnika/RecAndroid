@@ -5,7 +5,7 @@ package com.example.toa.rec;
  **/
 public class Api {
     //private static final String ROOT_URL = "http://phf.jhh.mybluehost.me/RecAndroidAPI/v1/Api.php?apicall=";
-    private static final String ROOT_URL = "http://192.168.0.12/RecAndroidAPI/v1/Api.php?apicall=";
+    private static final String ROOT_URL = "http://206.189.229.80/RecAndroidAPI/v1/Api.php?apicall=";
     //private static final String ROOT_URL = "http://192.168.1.64/RecAndroidAPI/v1/Api.php?apicall=";
     public static final String URL_CREATE_REVIEW = ROOT_URL + "createreview";
     public static final String URL_READ_EVENTS = ROOT_URL + "getevents";

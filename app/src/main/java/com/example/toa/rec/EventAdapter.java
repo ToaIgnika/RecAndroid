@@ -169,13 +169,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
-                     Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
-                     Activity a = (Activity) mContext;
-                     LoginHandler lh = new LoginHandler();
-                     int balanceValue = lh.getBalance(mContext) + 1;
-                     Activity act = (Activity) mContext;
-                     TextView tv = act.findViewById(R.id.balanceDisplay);
-                     tv.setText("Balance: " + balanceValue);
+                    Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+                    Activity a = (Activity) mContext;
+                    LoginHandler lh = new LoginHandler();
+                    int balanceValue = lh.getBalance(mContext) + 1;
+                    Activity act = (Activity) mContext;
+                    TextView tv = act.findViewById(R.id.balanceDisplay);
+                    tv.setText("Balance: " + balanceValue);
 
 
                 } else {

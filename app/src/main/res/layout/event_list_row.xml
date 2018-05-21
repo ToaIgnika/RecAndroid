@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="X"/>
+            android:theme="@style/btn_red"
+            android:text="cancel"/>
 
 
 

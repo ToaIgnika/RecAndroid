@@ -12,8 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
-import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.LoginHandler;
+import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
 
@@ -100,8 +100,8 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
                     PerformNetworkRequest pn = new PerformNetworkRequest(Api.URL_RESET_PIN, params, CODE_POST_REQUEST, getContext());
                     pn.execute();
                 } else {
-                     Toast.makeText(getContext(), "Make sure your passwords match!", Toast.LENGTH_SHORT).show();
-                     System.out.println("not equal");
+                    Toast.makeText(getContext(), "Make sure your passwords match!", Toast.LENGTH_SHORT).show();
+                    System.out.println("not equal");
                 }
 
                 break;
@@ -111,7 +111,7 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
             default:
                 break;
         }
- }
+    }
 
 
     /*ALEX: Performs a request using the php scripts to the databsae*/
@@ -143,7 +143,7 @@ public class ResetDialog extends Dialog implements View.OnClickListener{
                 JSONObject object = new JSONObject(s);
 
                 if (!object.getBoolean("error")) {
-                     Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
                     LoginHandler lh = new LoginHandler();
                     lh.saveLoginInfo(getContext(), email, ePin, UID, balance, 0, activity);
                     dismiss();

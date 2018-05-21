@@ -1,26 +1,10 @@
 package com.example.toa.rec;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.toa.rec.Dialogs.LogInDialog;
-import com.example.toa.rec.Fragments.BrowseFragment;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.util.HashMap;
-
-import static com.example.toa.rec.Api.CODE_GET_REQUEST;
-import static com.example.toa.rec.Api.CODE_POST_REQUEST;
 
 /**
  * Defines a LoginLander which does all of the work regarding logging in and logged
@@ -104,15 +88,15 @@ public class LoginHandler {
         balanceDisplay.setText("");
         Button loginLogoutBtn = a.findViewById(R.id.loginLogoutButton);
         loginLogoutBtn.setText("Login");
-   }
+    }
 
     public int getBalance(Context c){
-           SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-           int balance = sharedPref.getInt("balance", 0);
-           return balance;
- }
+        SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        int balance = sharedPref.getInt("balance", 0);
+        return balance;
+    }
 
- public String getUID (Context c) {
+    public String getUID (Context c) {
         SharedPreferences sharedPref = c.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String uid = sharedPref.getString("UID", "");
         return uid;

@@ -12,8 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.toa.rec.Api;
-import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.LoginHandler;
+import com.example.toa.rec.ObjectModels.Event;
 import com.example.toa.rec.R;
 import com.example.toa.rec.RequestHandler;
 
@@ -22,9 +22,9 @@ import org.json.JSONObject;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.security.MessageDigest;
 
 import static com.example.toa.rec.Api.CODE_GET_REQUEST;
 import static com.example.toa.rec.Api.CODE_POST_REQUEST;
@@ -158,38 +158,38 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                 JSONObject object = new JSONObject(s);
 
                 if (!object.getBoolean("error")) {
-                   // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(c, object.getString("message"), Toast.LENGTH_SHORT).show();
                 }
 
-               if(object.getJSONObject("user").get("UID").equals(null)) {
-                   Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
-               } else {
-                   Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
-                   LoginHandler lh = new LoginHandler();
-                   String email = emailField.getText().toString();
-                   String UID = object.getJSONObject("user").getString("UID");
-                   String ePin = object.getJSONObject("user").getString("ePin");
-                   int balance = object.getJSONObject("user").getInt("balance");
-                   int resetPin = object.getJSONObject("user").getInt("resetPin");
-                   if(resetPin == 1) {
+                if(object.getJSONObject("user").get("UID").equals(null)) {
+                    Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(c, "LOGGING YOU IN BOI", Toast.LENGTH_SHORT).show();
+                    LoginHandler lh = new LoginHandler();
+                    String email = emailField.getText().toString();
+                    String UID = object.getJSONObject("user").getString("UID");
+                    String ePin = object.getJSONObject("user").getString("ePin");
+                    int balance = object.getJSONObject("user").getInt("balance");
+                    int resetPin = object.getJSONObject("user").getInt("resetPin");
+                    if(resetPin == 1) {
                         // open up a new dialog to reset
-                       Toast.makeText(c, "you need to reset a pin", Toast.LENGTH_SHORT).show();
-                       ResetDialog d = new ResetDialog(activity, id, email, ePin, UID, balance, resetPin, e);
-                       dismiss();
-                       d.show();
+                        Toast.makeText(c, "you need to reset a pin", Toast.LENGTH_SHORT).show();
+                        ResetDialog d = new ResetDialog(activity, id, email, ePin, UID, balance, resetPin, e);
+                        dismiss();
+                        d.show();
 
-                   } else {
-                       lh.saveLoginInfo(getContext(), email, ePin, UID, balance, resetPin, activity);
-                       System.out.println("The user email" + email);
-                       System.out.println("The user ePin" + ePin);
-                       dismiss();
-                       if (e != null) {
-                           EventDetailsDialog d = new EventDetailsDialog(activity, e);
-                           d.show();
-                       }
+                    } else {
+                        lh.saveLoginInfo(getContext(), email, ePin, UID, balance, resetPin, activity);
+                        System.out.println("The user email" + email);
+                        System.out.println("The user ePin" + ePin);
+                        dismiss();
+                        if (e != null) {
+                            EventDetailsDialog d = new EventDetailsDialog(activity, e);
+                            d.show();
+                        }
 
-                   }
-               }
+                    }
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();

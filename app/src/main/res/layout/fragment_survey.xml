@@ -52,6 +52,7 @@
             android:spinnerMode="dropdown"/>
 
         <EditText
+
             android:background="@drawable/customborder"
             android:paddingTop="10dp"
             android:layout_below="@id/InstructorDropDown"
