@@ -70,6 +70,8 @@ public class UserListFragment extends Fragment {
             });
             */
 
+        } else {
+            loginPlease.setVisibility(View.GONE);
         }
 
 

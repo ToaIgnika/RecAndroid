@@ -205,7 +205,7 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
             try {
                 JSONObject object = new JSONObject(s);
 
-                if (!object.getBoolean("error")) {
+                if (!object.getBoolean("error") && object.getBoolean("success")) {
                     Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     /*ALEX: Loads the events from the json response from the database*/
                     //Toast.makeText(getContext(), "User is registered", Toast.LENGTH_SHORT).show();

@@ -106,8 +106,10 @@ public class BrowseFragment extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             //  progressBar.setVisibility(View.GONE);
+            System.out.println("HHH" + s);
             try {
                 JSONObject object = new JSONObject(s);
+
                 if (!object.getBoolean("error")) {
                     //Toast.makeText(getContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     /*ALEX: Loads the events from the json response from the database*/
