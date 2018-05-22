@@ -140,6 +140,7 @@ public class LogInDialog extends Dialog implements View.OnClickListener{
                 if(object.getJSONObject("user").get("UID").equals(null)) {
                     Toast.makeText(c, "There is no such account", Toast.LENGTH_SHORT).show();
                 } else {
+
                     Toast.makeText(c, "You have been logged in", Toast.LENGTH_SHORT).show();
                     LoginHandler lh = new LoginHandler();
                     String email = emailField.getText().toString();

@@ -22,6 +22,8 @@ import com.example.toa.rec.ObjectModels.Event;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -89,10 +91,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         holder.title.setText(event.getClassName());
         holder.desc.setText("Description: " + event.getClassDescription());
 
-        Date date = new Date();
-        int unixTime = parseInt(event.getEventDay());
-        date.setTime((long)unixTime*1000);
-        holder.date.setText("Date: " + date.toString());
+       
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy");
+        long lstamp =Long.parseLong(event.getEventDay() + "000") ;
+        Date eTime =new Date(lstamp);
+
+
+        holder.date.setText(df.format(eTime));
+
 
         /**
          * Determines what to do when we click the "x" to cancel a class
