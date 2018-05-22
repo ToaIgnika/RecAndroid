@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.toa.rec.Api;
 import com.example.toa.rec.Dialogs.EventDetailsDialog;
+import com.example.toa.rec.Dialogs.RegisteredEventDetailsDialog;
 import com.example.toa.rec.EventAdapter;
 import com.example.toa.rec.LoginHandler;
 import com.example.toa.rec.ObjectModels.Event;
@@ -60,15 +61,6 @@ public class UserListFragment extends Fragment {
         LoginHandler lh = new LoginHandler();
         if (!lh.isLoggedIn(getContext(), getActivity())) {
             loginPlease.setText("Log in to view your schedule");
-            /*
-            loginPlease.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LogInDialog d = new LogInDialog(getActivity(), v.getId());
-                    d.show();
-                }
-            });
-            */
 
         } else {
             loginPlease.setVisibility(View.GONE);
@@ -82,7 +74,7 @@ public class UserListFragment extends Fragment {
             @Override
             public void onItemClick(int position, View v) {
                 System.out.println("onItemClick position" + position);
-                EventDetailsDialog d = new EventDetailsDialog(getActivity(), eventList.get(position));
+                RegisteredEventDetailsDialog d = new RegisteredEventDetailsDialog(getActivity(), eventList.get(position));
                 d.show();
             }
         });
