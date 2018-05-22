@@ -3,6 +3,7 @@ package com.example.toa.rec;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -41,6 +42,8 @@ public class LoginHandler {
         balanceDisplay.setText("Balance: " + balance);
         Button loginLogoutBtn = a.findViewById(R.id.loginLogoutButton);
         loginLogoutBtn.setText("Logout");
+        TextView loginPlease = a.findViewById(R.id.loginPlease);
+        loginPlease.setVisibility(View.GONE);
     }
 
 

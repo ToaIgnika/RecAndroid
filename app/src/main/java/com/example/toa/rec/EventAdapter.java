@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView title, desc, date;
         public Button cancelBtn;
+
 
 
         public MyViewHolder(final View view)  {
@@ -91,7 +93,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         holder.title.setText(event.getClassName());
         holder.desc.setText("Description: " + event.getClassDescription());
 
-       
+
         SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy");
         long lstamp =Long.parseLong(event.getEventDay() + "000") ;
         Date eTime =new Date(lstamp);
@@ -124,6 +126,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                                 pn.execute();
                                 eventList.remove(position);
                                 notifyDataSetChanged();
+                                LoginHandler lh = new LoginHandler();
+                                Activity a = (Activity) mContext;
+                                lh.updateBalance(mContext, lh.getBalance(mContext)+ 1, a);
+
+
 
                             }
                         });

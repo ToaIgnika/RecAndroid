@@ -172,6 +172,7 @@ public class UserListFragment extends Fragment {
                 e.printStackTrace();
             }
 
+
             mAdapter.notifyDataSetChanged();
 
         }

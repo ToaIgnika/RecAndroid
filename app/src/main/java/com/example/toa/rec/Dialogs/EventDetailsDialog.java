@@ -191,6 +191,8 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
             // progressBar.setVisibility(View.VISIBLE);
         }
 
+        // where do u -- the balance ?
+
         /*ALEX: Once the task has finished executing we can do stuff here, i.e. load the display*/
         @Override
         protected void onPostExecute(String s) {

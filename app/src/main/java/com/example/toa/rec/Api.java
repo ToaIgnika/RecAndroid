@@ -7,7 +7,7 @@ public class Api {
     //private static final String ROOT_URL = "http://phf.jhh.mybluehost.me/RecAndroidAPI/v1/Api.php?apicall=";
     //private static final String ROOT_URL = "http://159.89.138.93/RecAndroidAPI/v1/Api.php?apicall=";
     //private static final String ROOT_URL = "http://192.168.1.64/RecAndroidAPI/v1/Api.php?apicall=";
-    private static final String ROOT_URL = "http://206.189.229.80/RecAndroidAPI/v1/Api.php?apicall=";
+    private static final String ROOT_URL = "http://142.232.54.106/RecAndroidAPI/v1/Api.php?apicall=";
 
     public static final String URL_CREATE_REVIEW = ROOT_URL + "createreview";
     public static final String URL_READ_EVENTS = ROOT_URL + "getevents";
