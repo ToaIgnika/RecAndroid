@@ -106,6 +106,7 @@ public class BrowseFragment extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             //  progressBar.setVisibility(View.GONE);
+            System.out.println("XXX:" + s);
             try {
                 JSONObject object = new JSONObject(s);
 
@@ -344,6 +345,7 @@ public class BrowseFragment extends Fragment {
                     if (df.format(c).equals(df.format(eTime))) {
                         View view = createCell(v);
                         TextView eventInfo =  view.findViewById(R.id.tv_event_info);
+                        System.out.println("XXX" + eventList.get(i).getEventID());
                         eventInfo.setText(eventList.get(i).getClassName() + "\n"
                                 + eventList.get(i).getClassLocation() + "\n"
                                 + eventList.get(i).getBeginHour() + ":" + eventList.get(i).getBeginMin() + "-" + eventList.get(i).getEndHour() + ":" + eventList.get(i).getEndMin()

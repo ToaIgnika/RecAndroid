@@ -101,10 +101,10 @@ public class EventDetailsDialog extends Dialog implements View.OnClickListener{
 
 
         try {
-            new DownloadImageTask((ImageView) findViewById(R.id.iv_instructor)).execute("https://www.w3schools.com/bootstrap4/img_avatar5.png");
-            new DownloadImageTask((ImageView) findViewById(R.id.iv_class_cover)).execute("https://thumbs-prod.si-cdn.com/1aYkS8dARZZQSJMpPIY6sFlMUls=/800x600/filters:no_upscale():focal(423x276:424x277)/https://public-media.smithsonianmag.com/filer/c6/3b/c63ba994-68b6-4052-84bd-fb9eddce7cba/istock-499925702.jpg");
-            //new DownloadImageTask((ImageView) findViewById(R.id.iv_instructor)).execute(e.getPhotoURL());
-            //new DownloadImageTask((ImageView) findViewById(R.id.iv_class_cover)).execute(e.getClassImageURL());
+            //new DownloadImageTask((ImageView) findViewById(R.id.iv_instructor)).execute("https://www.w3schools.com/bootstrap4/img_avatar5.png");
+            //new DownloadImageTask((ImageView) findViewById(R.id.iv_class_cover)).execute("https://thumbs-prod.si-cdn.com/1aYkS8dARZZQSJMpPIY6sFlMUls=/800x600/filters:no_upscale():focal(423x276:424x277)/https://public-media.smithsonianmag.com/filer/c6/3b/c63ba994-68b6-4052-84bd-fb9eddce7cba/istock-499925702.jpg");
+            new DownloadImageTask((ImageView) findViewById(R.id.iv_instructor)).execute(e.getPhotoURL());
+            new DownloadImageTask((ImageView) findViewById(R.id.iv_class_cover)).execute(e.getClassImageURL());
         } catch (Exception e) {
             System.out.println("Img loader e: " + e);
         }

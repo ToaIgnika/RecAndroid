@@ -6,6 +6,13 @@
  * Time: 10:57 AM
  */
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+
+require '../../PHPMailer/src/Exception.php';
+require '../../PHPMailer/src/PHPMailer.php';
+
 class DbOperation
 {
     //Database connection link
@@ -149,18 +156,9 @@ class DbOperation
      * Find user
      */
 
-    function getUser($findEmail, $findePin) {
+    function getUser($findEmail, $findEPin) {
 
-        /*
-         * $type     = 'testing';
-            $type     = mysql_real_escape_string($type);
-         */
-
-        //$email = mysqli_real_escape_string($email);
-       // $ePin = mysqli_real_escape_string($ePin);
-
-
-        $stmt = $this->con->prepare("SELECT UID, ePin, balance, resetPin FROM externalusers WHERE email ='$findEmail'");
+        $stmt = $this->con->prepare("SELECT UID, ePin, balance, resetPin FROM externalusers WHERE email ='$findEmail' && ePin = '$findEPin'");
         $stmt->execute();
         $stmt->bind_result($UID, $ePin, $balance, $resetPin);
 
@@ -175,19 +173,19 @@ class DbOperation
             $user['resetPin'] = $resetPin;
             //array_push($users, $user);
         }
-
         return $user;
-
     }
 
     function getUserEvents($findUID){
+        $currTime = time();
         $stmt = $this->con->prepare("SELECT eventID, eventDay, usedSlots, maxSlots, active, className, classLocation,
             c.instructorID, beginHour, beginMin, endHour, endMin, dayOfWeek, classDescription,
             classImageURL, firstname, lastname, photoURL, bio, categoryName, hexColor 
-				FROM events e
-				LEFT JOIN classes c ON c.classID=e.classID 
-				LEFT JOIN instructors i ON i.instructorID = c.instructorID LEFT JOIN classcategories cc ON c.categoryID = cc.categoryID  
-				WHERE eventID IN (SELECT eventID FROM registeredevents WHERE UID = '$findUID')");
+                FROM events e
+                LEFT JOIN classes c ON c.classID=e.classID 
+                LEFT JOIN instructors i ON i.instructorID = c.instructorID LEFT JOIN classcategories cc ON c.categoryID = cc.categoryID
+                WHERE eventID IN (SELECT eventID FROM registeredevents WHERE UID = '$findUID') and eventDay > '$currTime'
+                ORDER BY eventDay");
 
         $stmt->execute();
 
@@ -230,6 +228,11 @@ class DbOperation
     }
 
     function registerUser($uid, $eventid) {
+        $sql = "SELECT * FROM registeredevents WHERE UID = '$uid' AND eventID = '$eventid'";
+        $result = $this->con->query($sql);
+        if ($result->num_rows > 0) {
+            return false;
+        }
         // set the balance plus one
         $stmt1 = $this->con->prepare("UPDATE externalusers SET balance = balance - 1 WHERE UID = '$uid'");
         $stmt2 = $this->con->prepare("INSERT INTO registeredevents (UID, eventID) VALUES (?, ?)");
@@ -284,6 +287,55 @@ class DbOperation
             // 48 bits for "node"
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
         );
+    }
+
+    function mailUserSchedule ($findUID) {
+        $sql = "SELECT eventDay, className, classLocation,
+            beginHour, beginMin, endHour, endMin, dayOfWeek, firstname, lastname, categoryName 
+				FROM events e
+				LEFT JOIN classes c ON c.classID=e.classID 
+				LEFT JOIN instructors i ON i.instructorID = c.instructorID LEFT JOIN classcategories cc ON c.categoryID = cc.categoryID  
+				WHERE eventID IN (SELECT eventID FROM registeredevents WHERE UID = '$findUID')";
+        $result = $this->con->query($sql);
+        if ($result->num_rows > 0) {
+            try {
+                $mail = new PHPMailer();
+
+                $str = "My schedule:\n";
+                while ($row = $result->fetch_assoc()) {
+                    $str = $str . "- " . $row["eventDay"] . " "
+                        . $row["beginHour"] . ":" . $row["beginMin"] . "-" . $row["endHour"] . ":" . $row["endMin"] . ","
+                        . $row["className"] . "," . $row["classLocation"] . " with " . $row["firstname"] . "\n";
+                }
+
+                $mail->setFrom('noreply@bcitrec.ca', 'BCIT Rec Center');
+                $mail->addAddress('eugene.my88@gmail.com');
+                $mail->Subject = "My Schedule BCIT RecCenter";
+                $mail->Body = "hello, world!";
+
+                if (!$mail->send()) {
+                    return $mail->ErrorInfo;
+                }
+                return "mail sent";
+            } catch (\Exception $e) {
+                return "exception" . $e;
+            }
+        } else {
+            return "0 rows";
+        }
+    }
+
+    function mailSchedule ($email) {
+        $sql = "SELECT active, className, classLocation,
+            beginHour, beginMin, endHour, endMin, dayOfWeek, hexColor FROM events e L
+            EFT JOIN classes c ON c.classID=e.classID 
+            LEFT JOIN instructors i ON i.instructorID = c.instructorID 
+            LEFT JOIN classcategories cc ON c.categoryID = cc.categoryID 
+            ORDER BY eventDay, beginHour, beginMin";
+
+        $events = array();
+
+        return $events;
     }
 
 }

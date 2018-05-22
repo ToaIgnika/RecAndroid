@@ -155,10 +155,17 @@ if(isset($_GET['apicall'])){
             $db = new DbOperation();
             $response['error'] = false;
             $response['message'] = 'User is registered!';
-            $db->registerUser(
+            $response['success'] = $db->registerUser(
                 $_POST['uid'],
                 $_POST['classid']
             );
+            break;
+
+        case "mailuserevents":
+            $db = new DbOperation();
+            $response['error'] = false;
+            $response['message'] = 'm';
+            $response['mail'] = $db->mailUserSchedule($_POST['UID']);
             break;
     }
 
